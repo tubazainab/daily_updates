@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <meta name="description" content="Clean, lightweight, mobile-first Cyber Security & Hacking News Aggregator for daily infosec updates.">
+  <meta name="theme-color" content="#0d1117">
+
+  <title>Cyber Security & Hacking News</title>
+
+  <!-- PWA & Mobile Icons -->
+  <link rel="icon" type="image/svg+xml" href="assets/icon.svg">
+  <link rel="apple-touch-icon" href="assets/icon.svg">
+  <link rel="manifest" href="manifest.json">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Top App Header -->
+  <header class="app-header">
+    <div class="container">
+      <div class="header-top">
+        <a href="./" class="brand" aria-label="Cyber News Dashboard">
+          <svg class="brand-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            <path d="M9 12l2 2 4-4"/>
+          </svg>
+          <h1 class="brand-title">Cyber <span class="highlight">News</span></h1>
+        </a>
+
+        <div class="header-actions">
+          <!-- Refresh Button -->
+          <button id="btn-refresh" class="btn-icon" title="Refresh news (30m auto)" aria-label="Refresh news feed">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="23 4 23 10 17 10"/>
+              <polyline points="1 20 1 14 7 14"/>
+              <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>
+            </svg>
+          </button>
+
+          <!-- Daily 9 AM Notification Toggle -->
+          <button id="btn-notification" class="btn-icon" title="Daily 9:00 AM Notification Settings" aria-label="Toggle daily 9 AM notification">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+              <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+            </svg>
+          </button>
+
+          <!-- Theme Toggle -->
+          <button id="btn-theme" class="btn-icon" title="Toggle Light / Dark Mode" aria-label="Toggle theme">
+            <!-- Moon Icon for Dark Mode -->
+            <svg id="theme-moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+            </svg>
+            <!-- Sun Icon for Light Mode (hidden by default) -->
+            <svg id="theme-sun" style="display:none;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="5"/>
+              <line x1="12" y1="1" x2="12" y2="3"/>
+              <line x1="12" y1="21" x2="12" y2="23"/>
+              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+              <line x1="1" y1="12" x2="3" y2="12"/>
+              <line x1="21" y1="12" x2="23" y2="12"/>
+              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Search Box -->
+      <div class="search-wrapper">
+        <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"/>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+        </svg>
+        <input type="search" id="search-input" class="search-input" placeholder="Search news, vulnerabilities, CVEs, tools..." autocomplete="off" spellcheck="false" aria-label="Search articles">
+        <button id="search-clear" class="search-clear" title="Clear search" aria-label="Clear search">✕</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content Area -->
+  <main class="container">
+
+    <!-- Offline Banner -->
+    <div id="banner-offline" class="banner banner-offline" role="alert">
+      <span>📡</span>
+      <span>Offline — showing last available news.</span>
+    </div>
+
+    <!-- 9 AM Special Daily Update Banner -->
+    <div id="banner-daily" class="banner banner-daily" role="status">
+      <span class="banner-icon">🔔</span>
+      <span id="banner-daily-text">Today's update: Loading new articles...</span>
+    </div>
+
+    <!-- Notification Permission Modal / Prompt -->
+    <section id="notification-prompt" class="notification-banner" aria-label="Notification Permission Prompt">
+      <div class="notification-banner-content">
+        <strong>🔔 Enable daily 9 AM news notifications?</strong>
+        <span>Get a daily morning reminder when fresh security headlines and bug bounty writeups are ready.</span>
+      </div>
+      <div class="notification-banner-actions">
+        <button id="btn-notify-dismiss" class="btn-sm btn-secondary">Not Now</button>
+        <button id="btn-notify-enable" class="btn-sm btn-primary">Enable</button>
+      </div>
+    </section>
+
+    <!-- Category Filter Bar (Horizontal Scroll on Mobile) -->
+    <nav class="category-container" aria-label="News Categories">
+      <div id="category-pills" class="category-pills" role="tablist">
+        <!-- Dynamically injected from data/sources.js -->
+      </div>
+    </nav>
+
+    <!-- Controls & Status Bar -->
+    <div class="controls-bar">
+      <!-- Source Filter -->
+      <div class="source-select-wrapper">
+        <label for="source-select" class="visually-hidden">Source:</label>
+        <select id="source-select" class="source-select" aria-label="Filter by source">
+          <option value="all">All Sources</option>
+          <!-- Dynamically populated from sources.js -->
+        </select>
+      </div>
+
+      <!-- Feed Status & Last Updated -->
+      <div class="feed-stats">
+        <span id="article-count">0 articles</span>
+        <span>•</span>
+        <span id="last-updated">Last updated: --</span>
+      </div>
+    </div>
+
+    <!-- News List / Feed Container -->
+    <section id="news-container" class="news-list" aria-label="Latest Cybersecurity News" aria-live="polite">
+      <!-- Skeleton Loaders rendered initially -->
+      <div class="skeleton-card">
+        <div class="skeleton-shimmer skeleton-meta"></div>
+        <div class="skeleton-shimmer skeleton-title"></div>
+        <div class="skeleton-shimmer skeleton-desc"></div>
+        <div class="skeleton-shimmer skeleton-desc-2"></div>
+        <div class="skeleton-shimmer skeleton-footer"></div>
+      </div>
+      <div class="skeleton-card">
+        <div class="skeleton-shimmer skeleton-meta"></div>
+        <div class="skeleton-shimmer skeleton-title"></div>
+        <div class="skeleton-shimmer skeleton-desc"></div>
+        <div class="skeleton-shimmer skeleton-desc-2"></div>
+        <div class="skeleton-shimmer skeleton-footer"></div>
+      </div>
+      <div class="skeleton-card">
+        <div class="skeleton-shimmer skeleton-meta"></div>
+        <div class="skeleton-shimmer skeleton-title"></div>
+        <div class="skeleton-shimmer skeleton-desc"></div>
+        <div class="skeleton-shimmer skeleton-desc-2"></div>
+        <div class="skeleton-shimmer skeleton-footer"></div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="app-footer">
+    <div class="container">
+      <p>🛡️ Cyber Security & Hacking News Aggregator</p>
+      <p>Lightweight • Fast • Mobile-First • Hosted on GitHub Pages</p>
+    </div>
+  </footer>
+
+  <!-- Toast Notification Container -->
+  <div id="toast-container" class="toast-container" aria-live="polite"></div>
+
+  <!-- Scripts -->
+  <script src="data/sources.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

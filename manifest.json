@@ -1,0 +1,16 @@
+{
+  "name": "Cyber News Aggregator",
+  "short_name": "CyberNews",
+  "description": "Clean, lightweight cyber security & hacking news aggregator",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#0d1117",
+  "theme_color": "#0d1117",
+  "icons": [
+    {
+      "src": "assets/icon.svg",
+      "sizes": "192x192 512x512",
+      "type": "image/svg+xml"
+    }
+  ]
+}
