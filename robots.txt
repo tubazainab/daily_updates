@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://tubazainab.github.io/daily_updates/sitemap.xml

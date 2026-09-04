@@ -1,8 +1,8 @@
 /**
- * Cyber Security & Hacking News Aggregator - Core Engine
+ * Cyber Daily - Core Engine
  * 
  * Lightweight, Mobile-First, Vanilla JavaScript.
- * Hosted on GitHub Pages.
+ * Hosted on GitHub Pages with zero external dependencies.
  */
 
 'use strict';
@@ -15,6 +15,7 @@
     articles: [],
     filteredArticles: [],
     activeCategory: 'All',
+    activeView: 'all',
     activeSource: 'all',
     searchQuery: '',
     lastUpdated: null,
@@ -22,20 +23,104 @@
     isRefreshing: false,
     theme: 'dark',
     notificationEnabled: false,
-    dailyUpdateCount: 0
+    dailyUpdateCount: 0,
+    currentModalArticleId: null
   };
 
   // Local Storage Keys
   const STORAGE_KEYS = {
-    THEME: 'cyber_news_theme',
-    NOTIFICATIONS: 'cyber_news_notifications_enabled',
-    NOTIFY_PROMPT_SHOWN: 'cyber_news_notify_prompt_shown',
-    SELECTED_CATEGORY: 'cyber_news_selected_category',
-    SELECTED_SOURCE: 'cyber_news_selected_source',
-    CACHED_ARTICLES: 'cyber_news_cached_articles',
-    SEEN_IDS: 'cyber_news_seen_ids',
-    LAST_UPDATED: 'cyber_news_last_updated',
-    LAST_9AM_NOTIFIED: 'cyber_news_last_9am_notified'
+    THEME: 'cyber_daily_theme',
+    NOTIFICATIONS: 'cyber_daily_notifications_enabled',
+    NOTIFY_PROMPT_SHOWN: 'cyber_daily_notify_prompt_shown',
+    SELECTED_CATEGORY: 'cyber_daily_selected_category',
+    SELECTED_VIEW: 'cyber_daily_selected_view',
+    SELECTED_SOURCE: 'cyber_daily_selected_source',
+    CACHED_ARTICLES: 'cyber_daily_cached_articles',
+    SEEN_IDS: 'cyber_daily_seen_ids',
+    LAST_UPDATED: 'cyber_daily_last_updated',
+    LAST_9AM_NOTIFIED: 'cyber_daily_last_9am_notified'
+  };
+
+  // Content for Trust & Transparency Modals
+  const TRUST_PAGES = {
+    about: {
+      title: 'About Cyber Daily',
+      html: `
+        <p><strong>Cyber Daily</strong> is an independent, fast, and community-driven cybersecurity intelligence aggregator and bug bounty hub. Designed for security researchers, ethical hackers, SOC analysts, and university students, our mission is to deliver actionable, noise-free infosec intelligence in a single lightweight dashboard.</p>
+        <br>
+        <h4>Who We Serve</h4>
+        <ul style="margin-left: 20px; margin-top: 8px; margin-bottom: 16px;">
+          <li><strong>Bug Bounty Hunters:</strong> Rapid alerts on expanding program scopes, attack surface discoveries, and disclosure reports.</li>
+          <li><strong>Security Engineers &amp; Blue Teams:</strong> Zero-day alerts, critical CVE advisories, and immediate vendor patch links.</li>
+          <li><strong>Students &amp; Beginners:</strong> Free curated roadmaps, CTF practice portals, and ethical hacking methodology breakdowns.</li>
+        </ul>
+        <p>This project is 100% open, lightweight, and engineered to host on GitHub Pages without proprietary tracking or intrusive advertisements.</p>
+      `
+    },
+    sources: {
+      title: 'Verified Sources & Data Architecture',
+      html: `
+        <p>We believe in absolute transparency regarding information provenance. Cyber Daily aggregates headlines and summaries from vetted public security organizations, vendor security response centers, and established researcher communities:</p>
+        <ul style="margin-left: 20px; margin-top: 10px; margin-bottom: 16px;">
+          <li><strong>MSRC &amp; NIST NVD:</strong> Microsoft Security Response Center and the National Vulnerability Database for official CVE metrics.</li>
+          <li><strong>CISA Cybersecurity Advisories:</strong> Federal binding operational directives and Known Exploited Vulnerabilities (KEV).</li>
+          <li><strong>HackerOne &amp; Bugcrowd:</strong> Official program launches, scope adjustments, and annual researcher reports.</li>
+          <li><strong>ProjectDiscovery &amp; Open Source Security:</strong> New vulnerability scanners, Nuclei templates, and recon utilities.</li>
+          <li><strong>Hacker News &amp; Infosec Research:</strong> Community peer-reviewed technical deep-dives and root-cause analyses.</li>
+        </ul>
+        <p><em>Notice:</em> We only index short summaries, metadata, and attribution links pointing back to original publishers.</p>
+      `
+    },
+    contact: {
+      title: 'Contact & Security Submissions',
+      html: `
+        <p>Have an interesting bug bounty writeup, open-source security tool, or critical zero-day disclosure you would like featured on Cyber Daily?</p>
+        <br>
+        <p><strong>GitHub Repository:</strong> <a href="https://github.com/tubazainab/daily_updates" target="_blank" rel="noopener noreferrer" style="color: var(--accent-cyan);">github.com/tubazainab/daily_updates</a></p>
+        <p><strong>Submit a Tool or Advisory:</strong> Open an Issue or Pull Request on GitHub to contribute directly to our feed configuration.</p>
+        <br>
+        <p>For urgent responsible disclosure notices, please open a GitHub Issue tagged <code>[Advisory]</code>.</p>
+      `
+    },
+    privacy: {
+      title: 'Privacy Policy',
+      html: `
+        <p><strong>Your privacy is paramount.</strong> Cyber Daily is built with a privacy-by-design architecture:</p>
+        <ul style="margin-left: 20px; margin-top: 10px; margin-bottom: 16px;">
+          <li><strong>Zero Personal Data Collection:</strong> We do not ask for your name, email, credentials, or personal identifiers to read news.</li>
+          <li><strong>No Invasive Trackers:</strong> No third-party behavioral profiling pixels or biometric tracking.</li>
+          <li><strong>Local Storage:</strong> Your theme preference (dark/light), read article history, and filter selections are kept strictly inside your own browser's <code>localStorage</code>.</li>
+          <li><strong>Push Notifications:</strong> Notification permissions are handled client-side via standard browser APIs and never tied to a remote tracking ID.</li>
+        </ul>
+      `
+    },
+    terms: {
+      title: 'Terms of Use',
+      html: `
+        <p>By accessing and utilizing Cyber Daily, you acknowledge and agree to the following terms:</p>
+        <ul style="margin-left: 20px; margin-top: 10px; margin-bottom: 16px;">
+          <li>All content, advisories, CVE scores, and links are provided for informational and defensive education purposes.</li>
+          <li>You agree not to use information obtained from this platform to engage in unauthorized port scanning, vulnerability exploitation, denial-of-service, or network attacks against any third party.</li>
+          <li>We strive for maximum accuracy in vulnerability metrics and CVSS scores, but organizations must verify details against primary vendor advisories before taking production downtime.</li>
+        </ul>
+      `
+    },
+    disclaimer: {
+      title: 'Responsible Disclosure & Anti-Cybercrime Stance',
+      html: `
+        <div style="background: rgba(239, 68, 68, 0.1); border-left: 4px solid var(--accent-red); padding: 12px; margin-bottom: 16px; border-radius: 4px;">
+          <strong>STRICT ETHICAL REQUIREMENT:</strong>
+          <p style="margin-top: 6px;">Cyber Daily unconditionally condemns unauthorized computer intrusion, malware distribution, data theft, and black-hat activities.</p>
+        </div>
+        <p>All bug bounty guides, recon methodologies, and vulnerability technical analyses published on this hub are intended solely to assist:</p>
+        <ul style="margin-left: 20px; margin-top: 8px; margin-bottom: 16px;">
+          <li>Defenders in patching and securing organizational infrastructure.</li>
+          <li>Authorized ethical researchers operating under explicit, documented Bug Bounty Safe Harbor agreements.</li>
+          <li>Students studying offensive and defensive security in isolated lab environments.</li>
+        </ul>
+        <p>Never test, probe, or interact with any target infrastructure without explicit, written authorization from the system owner.</p>
+      `
+    }
   };
 
   // DOM Elements Cache
@@ -58,42 +143,117 @@
     btnNotifyDismiss: document.getElementById('btn-notify-dismiss'),
     articleCount: document.getElementById('article-count'),
     lastUpdatedText: document.getElementById('last-updated'),
-    toastContainer: document.getElementById('toast-container')
+    toastContainer: document.getElementById('toast-container'),
+    cveBanner: document.getElementById('cve-view-banner'),
+    bugbountyBanner: document.getElementById('bugbounty-view-banner'),
+    // Stats
+    statTotalArticles: document.getElementById('stat-total-articles'),
+    statCriticalCve: document.getElementById('stat-critical-cve'),
+    statBountyCount: document.getElementById('stat-bounty-count'),
+    statToolsCount: document.getElementById('stat-tools-count'),
+    // Article Modal
+    articleModal: document.getElementById('article-modal'),
+    modalArticleTitle: document.getElementById('modal-article-title'),
+    modalArticleBadges: document.getElementById('modal-article-badges'),
+    modalArticleClose: document.getElementById('modal-article-close'),
+    modalArticleSource: document.getElementById('modal-article-source'),
+    modalArticleDate: document.getElementById('modal-article-date'),
+    modalArticleAuthor: document.getElementById('modal-article-author'),
+    modalCveBox: document.getElementById('modal-cve-box'),
+    modalCveId: document.getElementById('modal-cve-id'),
+    modalCveCvss: document.getElementById('modal-cve-cvss'),
+    modalCveSeverity: document.getElementById('modal-cve-severity'),
+    modalCveAffectedList: document.getElementById('modal-cve-affected-list'),
+    modalArticleSummary: document.getElementById('modal-article-summary'),
+    modalWhySection: document.getElementById('modal-why-section'),
+    modalArticleWhy: document.getElementById('modal-article-why'),
+    modalTechSection: document.getElementById('modal-tech-section'),
+    modalArticleTechnical: document.getElementById('modal-article-technical'),
+    modalRecSection: document.getElementById('modal-rec-section'),
+    modalArticleRecommendations: document.getElementById('modal-article-recommendations'),
+    modalArticleTags: document.getElementById('modal-article-tags'),
+    modalSourceLink: document.getElementById('modal-source-link'),
+    modalPatchLink: document.getElementById('modal-patch-link'),
+    modalShareBtn: document.getElementById('modal-share-btn'),
+    modalRelatedContainer: document.getElementById('modal-related-container'),
+    // Trust Info Modal
+    infoModal: document.getElementById('info-modal'),
+    infoModalTitle: document.getElementById('info-modal-title'),
+    infoModalBody: document.getElementById('info-modal-body'),
+    infoModalClose: document.getElementById('info-modal-close')
   };
 
   /**
    * 1. Initialize Application
    */
-  function init() {
+  async function init() {
     loadTheme();
     loadSources();
     setupUIControls();
-    loadCache();
+    setupHashRouting();
+
+    // STEP 1: Load pre-bundled dataset or local cache immediately to guarantee NO 0-articles screen!
+    await loadInitialDataset();
+
     checkOfflineStatus();
     checkDailyNotificationPrompt();
     scheduleDaily9AMCheck();
 
-    // Initial fetch of news
-    refreshNews();
+    // STEP 2: Concurrently fetch live online feeds (Hacker News Algolia, RSS fallbacks)
+    refreshNews(false, true);
 
     // Auto-refresh timer (default 30 minutes)
     const refreshMs = (window.appConfig?.refreshIntervalMinutes || 30) * 60 * 1000;
     setInterval(() => {
-      refreshNews(true); // background auto refresh
+      refreshNews(true, false);
     }, refreshMs);
 
-    // Register Service Worker if supported for offline/PWA capability
+    // Register Service Worker for offline PWA
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
         navigator.serviceWorker.register('./service-worker.js').catch((err) => {
-          console.warn('Service Worker registration note:', err.message);
+          console.warn('Service Worker info:', err.message);
         });
       });
     }
+
+    // Set current year in footer
+    const yr = document.getElementById('current-year');
+    if (yr) yr.textContent = new Date().getFullYear();
   }
 
   /**
-   * 2. Load Sources & Category Filters
+   * 2. Guaranteed Dataset Loader (Guarantees Site Never Looks Empty)
+   */
+  async function loadInitialDataset() {
+    // 1. Try local cache first for instant display
+    const hasCache = loadCache();
+
+    // 2. Fetch bundled high-value JSON data
+    try {
+      const response = await fetch('./data/articles.json', { cache: 'no-cache' });
+      if (response.ok) {
+        const bundled = await response.json();
+        if (Array.isArray(bundled) && bundled.length > 0) {
+          const normalized = bundled.map((item) => normalizeArticle(item));
+          // Merge with any cached items
+          const merged = removeDuplicates([...normalized, ...state.articles]);
+          state.articles = sortArticles(merged);
+          state.lastUpdated = state.lastUpdated || new Date();
+          saveCache();
+        }
+      }
+    } catch (e) {
+      console.warn('Could not load local bundled articles.json:', e);
+    }
+
+    // Render immediately
+    filterAndRender();
+    updateDashboardStats();
+  }
+
+  /**
+   * 3. Load Sources & Category Filters
    */
   function loadSources() {
     state.sources = Array.isArray(window.newsSources) ? window.newsSources : [];
@@ -125,8 +285,7 @@
 
   function renderSourceOptions() {
     if (!elements.sourceSelect) return;
-    // Keep first "All Sources"
-    elements.sourceSelect.innerHTML = '<option value="all">All Sources</option>';
+    elements.sourceSelect.innerHTML = '<option value="all">All Intelligence Feeds</option>';
 
     state.sources.forEach((source) => {
       const option = document.createElement('option');
@@ -135,7 +294,6 @@
       elements.sourceSelect.appendChild(option);
     });
 
-    // Restore saved source if available
     const savedSource = localStorage.getItem(STORAGE_KEYS.SELECTED_SOURCE);
     if (savedSource && (savedSource === 'all' || state.sources.some(s => s.id === savedSource))) {
       state.activeSource = savedSource;
@@ -144,55 +302,41 @@
   }
 
   /**
-   * 3. Fetching News Concurrently (Error Resilient)
+   * 4. Fetch Live News Concurrently (Error Resilient)
    */
-  async function fetchNews() {
-    const enabledSources = state.sources.filter((s) => s.enabled);
-    if (enabledSources.length === 0) {
-      showToast('No news sources enabled in data/sources.js');
-      return [];
-    }
+  async function fetchLiveNews() {
+    const enabledSources = state.sources.filter((s) => s.enabled && s.type !== 'local_json');
+    if (enabledSources.length === 0) return [];
 
     const fetchPromises = enabledSources.map(async (source) => {
       try {
         if (source.type === 'api_hn') {
           return await fetchHackerNewsSource(source);
-        } else {
+        } else if (source.type === 'rss') {
           return await fetchRSSSource(source);
         }
+        return [];
       } catch (err) {
-        // Log individual source error without crashing the application
-        console.warn(`[News Aggregator] Source "${source.name}" unavailable:`, err.message);
+        console.warn(`[Cyber Daily] Source "${source.name}" warning:`, err.message);
         return [];
       }
     });
 
-    // Promise.allSettled guarantees that one failing source never breaks the others
     const results = await Promise.allSettled(fetchPromises);
     const collectedArticles = [];
-    let failedCount = 0;
 
-    results.forEach((res, index) => {
+    results.forEach((res) => {
       if (res.status === 'fulfilled' && Array.isArray(res.value)) {
         collectedArticles.push(...res.value);
-      } else {
-        failedCount++;
       }
     });
-
-    if (failedCount > 0 && failedCount === enabledSources.length) {
-      showToast('Unable to fetch online feeds. Showing cached news.');
-    }
 
     return collectedArticles;
   }
 
-  /**
-   * Fetch Hacker News Algolia JSON API (Direct open CORS)
-   */
   async function fetchHackerNewsSource(source) {
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 12000);
+    const timeoutId = setTimeout(() => controller.abort(), 9000);
 
     const response = await fetch(source.feed, {
       signal: controller.signal,
@@ -200,10 +344,7 @@
     });
     clearTimeout(timeoutId);
 
-    if (!response.ok) {
-      throw new Error(`HTTP ${response.status}`);
-    }
-
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
     const data = await response.json();
     const hits = Array.isArray(data.hits) ? data.hits : [];
 
@@ -211,169 +352,123 @@
       .filter((hit) => hit.title && (hit.url || hit.story_text || hit.objectID))
       .map((hit) => {
         const articleUrl = hit.url || `https://news.ycombinator.com/item?id=${hit.objectID}`;
-        const description = hit.story_text ? cleanPlainText(hit.story_text) : `Hacker News discussion (${hit.points || 0} points, ${hit.num_comments || 0} comments)`;
+        const description = hit.story_text ? cleanPlainText(hit.story_text) : `Hacker News infosec discussion (${hit.points || 0} points, ${hit.num_comments || 0} comments)`;
 
         return normalizeArticle({
-          sourceId: source.id,
-          sourceName: source.name,
+          id: `hn-${hit.objectID}`,
+          source: source.name,
+          sourceUrl: articleUrl,
           title: hit.title,
-          url: articleUrl,
-          description: description,
+          summary: description,
           publishedAt: hit.created_at || new Date().toISOString(),
           category: detectCategory(hit.title, source.category),
-          thumbnail: null
+          tags: ["Hacker News", "InfoSec", "Discussion"],
+          severity: hit.title.toLowerCase().includes('zero-day') || hit.title.toLowerCase().includes('critical') ? 'High' : 'Low'
         });
       });
   }
 
-  /**
-   * Fetch RSS Feeds via CORS-Friendly Gateway or Direct
-   */
   async function fetchRSSSource(source) {
     const proxies = window.appConfig?.rssProxies || [
       'https://api.rss2json.com/v1/api.json?rss_url='
     ];
 
-    let lastError = null;
-
-    // Try primary proxy converter (RSS2JSON returns parsed JSON directly)
     for (const proxyUrl of proxies) {
       try {
         const targetUrl = proxyUrl ? `${proxyUrl}${encodeURIComponent(source.feed)}` : source.feed;
         const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 12000);
+        const timeoutId = setTimeout(() => controller.abort(), 9000);
 
         const response = await fetch(targetUrl, { signal: controller.signal });
         clearTimeout(timeoutId);
 
-        if (!response.ok) {
-          throw new Error(`HTTP ${response.status}`);
-        }
+        if (!response.ok) continue;
 
-        // Case 1: Proxy returned JSON (e.g. api.rss2json.com)
         const contentType = response.headers.get('content-type') || '';
         if (contentType.includes('application/json') || proxyUrl.includes('rss2json')) {
           const data = await response.json();
           if (data.status === 'ok' && Array.isArray(data.items)) {
             return data.items.map((item) => {
-              const thumb = item.thumbnail || item.enclosure?.link || extractImgFromHTML(item.description);
               return normalizeArticle({
-                sourceId: source.id,
-                sourceName: source.name,
+                id: normalizeUrlForDeduplication(item.link || item.guid),
+                source: source.name,
+                sourceUrl: item.link || item.guid,
                 title: item.title,
-                url: item.link || item.guid,
-                description: cleanPlainText(item.description),
+                summary: cleanPlainText(item.description),
                 publishedAt: item.pubDate || new Date().toISOString(),
                 category: detectCategory(item.title + ' ' + (item.categories?.join(' ') || ''), source.category),
-                thumbnail: thumb
+                tags: item.categories || ["Security Update"]
               });
             });
           }
         }
-
-        // Case 2: Proxy returned raw XML text (e.g. allorigins or direct XML)
-        const xmlText = await response.text();
-        const parsed = parseXMLFeed(xmlText, source);
-        if (parsed && parsed.length > 0) {
-          return parsed;
-        }
       } catch (err) {
-        lastError = err;
-        // Continue loop to next fallback proxy
+        // Try next proxy
       }
     }
 
-    throw lastError || new Error('All feed gateways failed');
+    return [];
   }
 
   /**
-   * Parse XML/Atom Feed in Browser
-   */
-  function parseXMLFeed(xmlText, source) {
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(xmlText, 'text/xml');
-
-    const parserError = doc.querySelector('parsererror');
-    if (parserError) {
-      throw new Error('XML parsing failed');
-    }
-
-    // Try RSS <item> tags
-    let items = Array.from(doc.querySelectorAll('item'));
-    // Or Atom <entry> tags
-    if (items.length === 0) {
-      items = Array.from(doc.querySelectorAll('entry'));
-    }
-
-    return items.map((node) => {
-      const title = node.querySelector('title')?.textContent || 'Untitled';
-      const link = node.querySelector('link')?.textContent || node.querySelector('link')?.getAttribute('href') || '';
-      const desc = node.querySelector('description')?.textContent || node.querySelector('summary')?.textContent || node.querySelector('content')?.textContent || '';
-      const pubDate = node.querySelector('pubDate')?.textContent || node.querySelector('published')?.textContent || node.querySelector('updated')?.textContent || '';
-      
-      let thumb = null;
-      const mediaContent = node.querySelector('media\\:content, content') || node.querySelector('enclosure[type^="image"]');
-      if (mediaContent) {
-        thumb = mediaContent.getAttribute('url');
-      }
-      if (!thumb) {
-        thumb = extractImgFromHTML(desc);
-      }
-
-      return normalizeArticle({
-        sourceId: source.id,
-        sourceName: source.name,
-        title: title,
-        url: link,
-        description: cleanPlainText(desc),
-        publishedAt: pubDate || new Date().toISOString(),
-        category: detectCategory(title + ' ' + desc, source.category),
-        thumbnail: thumb
-      });
-    });
-  }
-
-  /**
-   * 4. Normalize Article Structure
+   * 5. Normalize Article Structure
    */
   function normalizeArticle(item) {
-    const safeUrl = sanitizeUrl(item.url);
-    const cleanTitle = sanitizeText(item.title) || 'Untitled Security Article';
-    const cleanDesc = sanitizeText(item.description) || 'No summary available for this article.';
-    
-    // Parse valid date or fallback to now
+    const safeUrl = sanitizeUrl(item.sourceUrl || item.url);
+    const cleanTitle = sanitizeText(item.title) || 'Untitled Security Intelligence';
+    const cleanSummary = sanitizeText(item.summary || item.description) || 'Summary not available.';
+
     let parsedDate = new Date(item.publishedAt);
     if (isNaN(parsedDate.getTime())) {
       parsedDate = new Date();
     }
 
-    // Normalize URL as primary duplicate key
-    const normalizedId = normalizeUrlForDeduplication(safeUrl);
+    const normalizedId = item.id || normalizeUrlForDeduplication(safeUrl) || `art-${Math.random().toString(36).substring(2, 9)}`;
+
+    // Infer CVE if not explicitly set
+    let cveId = item.cveId || '';
+    if (!cveId) {
+      const match = cleanTitle.match(/CVE-\d{4}-\d{4,7}/i) || cleanSummary.match(/CVE-\d{4}-\d{4,7}/i);
+      if (match) cveId = match[0].toUpperCase();
+    }
+
+    let severity = item.severity || 'Medium';
+    if (!['Critical', 'High', 'Medium', 'Low'].includes(severity)) {
+      if (item.cvssScore >= 9.0) severity = 'Critical';
+      else if (item.cvssScore >= 7.0) severity = 'High';
+      else if (item.cvssScore >= 4.0) severity = 'Medium';
+      else severity = 'Low';
+    }
 
     return {
       id: normalizedId,
-      sourceId: item.sourceId || 'source',
-      sourceName: item.sourceName || 'Infosec Source',
       title: cleanTitle,
-      url: safeUrl,
-      description: cleanDesc,
+      summary: cleanSummary,
+      category: item.category || 'Cybersecurity News',
+      source: item.source || item.sourceName || 'InfoSec Source',
+      sourceUrl: safeUrl,
       publishedAt: parsedDate.toISOString(),
       timestamp: parsedDate.getTime(),
-      category: item.category || 'Cyber Security',
-      thumbnail: sanitizeUrl(item.thumbnail)
+      tags: Array.isArray(item.tags) ? item.tags : [],
+      cveId: cveId,
+      severity: severity,
+      cvssScore: typeof item.cvssScore === 'number' ? item.cvssScore : (cveId ? 7.5 : 0),
+      image: sanitizeUrl(item.image || item.thumbnail),
+      author: sanitizeText(item.author) || 'Cyber Daily Intel',
+      whyItMatters: sanitizeText(item.whyItMatters) || '',
+      technicalDetails: sanitizeText(item.technicalDetails) || '',
+      affectedProducts: Array.isArray(item.affectedProducts) ? item.affectedProducts : [],
+      recommendations: sanitizeText(item.recommendations) || '',
+      patchUrl: sanitizeUrl(item.patchUrl)
     };
   }
 
-  /**
-   * 5. Remove Duplicates (by normalized URL)
-   */
   function removeDuplicates(articles) {
     const seen = new Set();
     const unique = [];
 
     for (const article of articles) {
-      if (!article.url || article.url === '#') continue;
-      const key = article.id || article.url;
+      const key = article.id || article.sourceUrl;
       if (!seen.has(key)) {
         seen.add(key);
         unique.push(article);
@@ -382,61 +477,44 @@
     return unique;
   }
 
-  /**
-   * 6. Chronological Sorting (Newest first)
-   */
   function sortArticles(articles) {
     return [...articles].sort((a, b) => b.timestamp - a.timestamp);
   }
 
   /**
-   * 7. Refresh News Workflow
+   * 6. Refresh News Workflow
    */
-  async function refreshNews(isBackground = false) {
+  async function refreshNews(isBackground = false, isInitial = false) {
     if (state.isRefreshing) return;
     state.isRefreshing = true;
 
     if (!isBackground) {
       setRefreshSpinning(true);
-      if (state.articles.length === 0) {
-        renderSkeletonLoading();
-      }
     }
 
     try {
-      const rawFetched = await fetchNews();
+      const liveFetched = await fetchLiveNews();
 
-      if (rawFetched.length > 0) {
-        // Merge with existing articles for seamless updates
-        const merged = removeDuplicates([...rawFetched, ...state.articles]);
-        const sorted = sortArticles(merged);
-
-        // Calculate new articles for 9 AM indicator
-        calculateNewArticles(rawFetched);
-
-        state.articles = sorted;
+      if (liveFetched.length > 0) {
+        const merged = removeDuplicates([...liveFetched, ...state.articles]);
+        state.articles = sortArticles(merged);
         state.lastUpdated = new Date();
 
+        calculateNewArticles(liveFetched);
         saveCache();
         updateLastUpdatedDisplay();
         filterAndRender();
+        updateDashboardStats();
 
-        if (!isBackground) {
-          showToast(`Feed updated with ${rawFetched.length} latest articles.`);
+        if (!isBackground && !isInitial) {
+          showToast(`⚡ Synchronized: ${liveFetched.length} fresh intelligence reports added.`);
         }
-      } else if (state.articles.length > 0) {
-        // If fetch yielded 0 (e.g. offline), render current cached
-        filterAndRender();
       } else {
-        renderEmptyState('No articles could be loaded. Please check your internet connection or sources configuration.');
+        // Keep existing articles, update display
+        updateDashboardStats();
       }
     } catch (err) {
-      console.error('Error refreshing news:', err);
-      if (state.articles.length > 0) {
-        filterAndRender();
-      } else {
-        renderEmptyState('Unable to load feed. Displaying cached data where available.');
-      }
+      console.warn('Live refresh note:', err);
     } finally {
       state.isRefreshing = false;
       setRefreshSpinning(false);
@@ -445,30 +523,86 @@
   }
 
   /**
+   * 7. Compute & Update Dashboard Statistics Dynamically
+   */
+  function updateDashboardStats() {
+    const total = state.articles.length;
+    let criticalCount = 0;
+    let bountyCount = 0;
+    let toolsCount = 0;
+
+    state.articles.forEach((a) => {
+      // Critical CVE
+      if (a.severity === 'Critical' || (a.cveId && a.cvssScore >= 9.0)) {
+        criticalCount++;
+      }
+      // Bug Bounty
+      if (a.category === 'Bug Bounty' || a.tags.some(t => t.toLowerCase().includes('bounty'))) {
+        bountyCount++;
+      }
+      // Security Tools
+      if (a.category === 'Hacking & Security Tools' || a.tags.some(t => t.toLowerCase().includes('tool'))) {
+        toolsCount++;
+      }
+    });
+
+    if (elements.statTotalArticles) elements.statTotalArticles.textContent = total;
+    if (elements.statCriticalCve) elements.statCriticalCve.textContent = criticalCount;
+    if (elements.statBountyCount) elements.statBountyCount.textContent = bountyCount;
+    if (elements.statToolsCount) elements.statToolsCount.textContent = toolsCount;
+  }
+
+  /**
    * 8. Filter & Search Logic
    */
   function filterAndRender() {
     let result = state.articles;
 
-    // Filter by Source
-    if (state.activeSource !== 'all') {
-      result = result.filter((a) => a.sourceId === state.activeSource);
+    // Filter by Hub View Tab
+    if (state.activeView === 'trending') {
+      result = result.filter((a) => a.severity === 'Critical' || a.severity === 'High' || a.tags.includes('Zero-Day') || a.tags.includes('CISA-KEV'));
+    } else if (state.activeView === 'cve') {
+      result = result.filter((a) => a.cveId || a.category === 'CVE / Vulnerabilities');
+    } else if (state.activeView === 'bugbounty') {
+      result = result.filter((a) => a.category === 'Bug Bounty' || a.tags.some(t => t.toLowerCase().includes('bounty')));
+    } else if (state.activeView === 'tools') {
+      result = result.filter((a) => a.category === 'Hacking & Security Tools' || a.tags.some(t => t.toLowerCase().includes('tool')));
+    } else if (state.activeView === 'jobs') {
+      result = result.filter((a) => a.category === 'Cybersecurity Jobs' || a.tags.some(t => t.toLowerCase().includes('job')));
+    } else if (state.activeView === 'learning') {
+      result = result.filter((a) => a.category === 'Learning' || a.tags.some(t => t.toLowerCase().includes('learning') || t.toLowerCase().includes('roadmap')));
     }
 
-    // Filter by Category
+    // Toggle Section Banners
+    if (elements.cveBanner) {
+      elements.cveBanner.style.display = (state.activeView === 'cve' || state.activeCategory === 'CVE / Vulnerabilities') ? 'block' : 'none';
+    }
+    if (elements.bugbountyBanner) {
+      elements.bugbountyBanner.style.display = (state.activeView === 'bugbounty' || state.activeCategory === 'Bug Bounty') ? 'block' : 'none';
+    }
+
+    // Filter by Source Dropdown
+    if (state.activeSource !== 'all') {
+      result = result.filter((a) => a.source.toLowerCase().includes(state.activeSource.toLowerCase()) || a.source === state.activeSource);
+    }
+
+    // Filter by Category Pills
     if (state.activeCategory !== 'All') {
       result = result.filter((a) => a.category.toLowerCase() === state.activeCategory.toLowerCase());
     }
 
-    // Filter by Search Query
+    // Search Query Matching across Title, Summary, Tags, Category, CVE ID
     if (state.searchQuery.trim() !== '') {
       const q = state.searchQuery.toLowerCase().trim();
-      result = result.filter((a) =>
-        a.title.toLowerCase().includes(q) ||
-        a.description.toLowerCase().includes(q) ||
-        a.sourceName.toLowerCase().includes(q) ||
-        a.category.toLowerCase().includes(q)
-      );
+      result = result.filter((a) => {
+        const inTitle = a.title.toLowerCase().includes(q);
+        const inSummary = a.summary.toLowerCase().includes(q);
+        const inCategory = a.category.toLowerCase().includes(q);
+        const inSource = a.source.toLowerCase().includes(q);
+        const inCve = a.cveId ? a.cveId.toLowerCase().includes(q) : false;
+        const inTags = a.tags.some((t) => t.toLowerCase().includes(q));
+        return inTitle || inSummary || inCategory || inSource || inCve || inTags;
+      });
     }
 
     state.filteredArticles = result;
@@ -486,8 +620,8 @@
     if (!articles || articles.length === 0) {
       renderEmptyState(
         state.searchQuery
-          ? `No articles match "${state.searchQuery}". Try another keyword or filter.`
-          : 'No articles found in this category.'
+          ? `No intelligence reports match "${state.searchQuery}". Try a broader term like "CVE", "Cloud", or "API".`
+          : 'No articles currently found in this category view.'
       );
       return;
     }
@@ -498,89 +632,90 @@
       const card = document.createElement('article');
       card.className = 'news-card';
 
-      // Check if newly fetched around 9 AM
-      const isUnread = !state.seenArticleIds.has(article.id);
-      if (isUnread && isNearNineAM()) {
-        card.classList.add('is-new');
+      if (article.severity === 'Critical') {
+        card.classList.add('critical-item');
+      } else if (article.category === 'Bug Bounty') {
+        card.classList.add('bounty-item');
       }
 
-      // Card Header (Source Name + Category Badge + Optional New Badge)
-      const metaTop = document.createElement('div');
-      metaTop.className = 'card-meta-top';
+      // Top Meta: Source + Category + Severity + CVSS
+      const topMeta = document.createElement('div');
+      topMeta.className = 'card-top-meta';
 
       const sourceSpan = document.createElement('span');
-      sourceSpan.className = 'card-source';
-      sourceSpan.textContent = article.sourceName;
-      metaTop.appendChild(sourceSpan);
+      sourceSpan.className = 'card-source-pill';
+      sourceSpan.textContent = article.source;
+      topMeta.appendChild(sourceSpan);
 
       const badgesWrap = document.createElement('div');
-      badgesWrap.style.display = 'flex';
-      badgesWrap.style.gap = '6px';
-      badgesWrap.style.alignItems = 'center';
+      badgesWrap.className = 'card-badges';
 
-      if (isUnread && isNearNineAM()) {
-        const newBadge = document.createElement('span');
-        newBadge.className = 'new-badge';
-        newBadge.textContent = 'NEW';
-        badgesWrap.appendChild(newBadge);
+      // Category Pill
+      const catSpan = document.createElement('span');
+      catSpan.className = 'card-category-pill';
+      catSpan.textContent = article.category;
+      badgesWrap.appendChild(catSpan);
+
+      // Severity Pill (if Critical / High / Medium)
+      if (article.severity) {
+        const sevSpan = document.createElement('span');
+        sevSpan.className = `severity-pill severity-${article.severity}`;
+        sevSpan.textContent = article.severity;
+        badgesWrap.appendChild(sevSpan);
       }
 
-      const categorySpan = document.createElement('span');
-      categorySpan.className = 'card-category';
-      categorySpan.textContent = article.category;
-      badgesWrap.appendChild(categorySpan);
+      // CVSS Pill (if score > 0)
+      if (article.cvssScore && article.cvssScore > 0) {
+        const cvssSpan = document.createElement('span');
+        cvssSpan.className = 'cvss-score-pill';
+        cvssSpan.textContent = `CVSS ${article.cvssScore.toFixed(1)}`;
+        badgesWrap.appendChild(cvssSpan);
+      }
 
-      metaTop.appendChild(badgesWrap);
-      card.appendChild(metaTop);
+      topMeta.appendChild(badgesWrap);
+      card.appendChild(topMeta);
 
-      // Card Body (Content & Thumbnail)
-      const contentWrap = document.createElement('div');
-      contentWrap.className = 'card-content-wrap';
+      // Dedicated CVE ID Badge if present
+      if (article.cveId) {
+        const cveBadge = document.createElement('span');
+        cveBadge.className = 'cve-id-badge';
+        cveBadge.textContent = article.cveId;
+        card.appendChild(cveBadge);
+      }
 
-      const cardBody = document.createElement('div');
-      cardBody.className = 'card-body';
-
-      // Title with Safe Link
+      // Card Title
       const titleEl = document.createElement('h2');
       titleEl.className = 'card-title';
       const titleLink = document.createElement('a');
-      titleLink.href = article.url;
-      titleLink.target = '_blank';
-      titleLink.rel = 'noopener noreferrer';
+      titleLink.href = `#/article/${encodeURIComponent(article.id)}`;
       titleLink.textContent = article.title;
-      titleLink.addEventListener('click', () => markArticleAsSeen(article.id));
+      titleLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        openArticleModal(article);
+      });
       titleEl.appendChild(titleLink);
-      cardBody.appendChild(titleEl);
+      card.appendChild(titleEl);
 
-      // Description
-      const descEl = document.createElement('p');
-      descEl.className = 'card-description';
-      descEl.textContent = article.description;
-      cardBody.appendChild(descEl);
+      // Summary
+      const summaryEl = document.createElement('p');
+      summaryEl.className = 'card-summary';
+      summaryEl.textContent = article.summary;
+      card.appendChild(summaryEl);
 
-      contentWrap.appendChild(cardBody);
-
-      // Thumbnail (if valid and present)
-      if (article.thumbnail && article.thumbnail.startsWith('http')) {
-        const thumbWrap = document.createElement('div');
-        thumbWrap.className = 'card-thumb-wrap';
-
-        const img = document.createElement('img');
-        img.className = 'card-thumb';
-        img.src = article.thumbnail;
-        img.alt = article.title;
-        img.loading = 'lazy';
-        img.onerror = () => {
-          thumbWrap.style.display = 'none'; // hide on image load error
-        };
-
-        thumbWrap.appendChild(img);
-        contentWrap.appendChild(thumbWrap);
+      // Tags
+      if (article.tags && article.tags.length > 0) {
+        const tagsWrap = document.createElement('div');
+        tagsWrap.className = 'card-tags';
+        article.tags.slice(0, 4).forEach((tag) => {
+          const chip = document.createElement('span');
+          chip.className = 'tag-chip';
+          chip.textContent = `#${tag}`;
+          tagsWrap.appendChild(chip);
+        });
+        card.appendChild(tagsWrap);
       }
 
-      card.appendChild(contentWrap);
-
-      // Card Footer (Time & Read Article Button)
+      // Card Footer: Relative Time + Read Details Button + Source Link
       const footer = document.createElement('div');
       footer.className = 'card-footer';
 
@@ -590,16 +725,31 @@
       timeSpan.textContent = formatRelativeTime(article.publishedAt);
       footer.appendChild(timeSpan);
 
-      const readBtn = document.createElement('a');
-      readBtn.className = 'card-read-btn';
-      readBtn.href = article.url;
-      readBtn.target = '_blank';
-      readBtn.rel = 'noopener noreferrer';
-      readBtn.innerHTML = `Read Article <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>`;
-      readBtn.addEventListener('click', () => markArticleAsSeen(article.id));
-      footer.appendChild(readBtn);
+      const actionsWrap = document.createElement('div');
+      actionsWrap.className = 'card-actions';
 
+      const readBtn = document.createElement('button');
+      readBtn.className = 'btn-read-modal';
+      readBtn.innerHTML = `Read Intel <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>`;
+      readBtn.addEventListener('click', () => {
+        openArticleModal(article);
+      });
+      actionsWrap.appendChild(readBtn);
+
+      if (article.sourceUrl && article.sourceUrl !== '#') {
+        const extLink = document.createElement('a');
+        extLink.className = 'btn-source-ext';
+        extLink.href = article.sourceUrl;
+        extLink.target = '_blank';
+        extLink.rel = 'noopener noreferrer';
+        extLink.title = 'Open original source';
+        extLink.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>`;
+        actionsWrap.appendChild(extLink);
+      }
+
+      footer.appendChild(actionsWrap);
       card.appendChild(footer);
+
       fragment.appendChild(card);
     });
 
@@ -607,297 +757,276 @@
   }
 
   /**
-   * Skeleton Loading Cards
+   * 10. Article Detail Reader Modal & Hash Routing
    */
-  function renderSkeletonLoading() {
-    if (!elements.newsContainer) return;
-    elements.newsContainer.innerHTML = `
-      <div class="skeleton-card">
-        <div class="skeleton-shimmer skeleton-meta"></div>
-        <div class="skeleton-shimmer skeleton-title"></div>
-        <div class="skeleton-shimmer skeleton-desc"></div>
-        <div class="skeleton-shimmer skeleton-desc-2"></div>
-        <div class="skeleton-shimmer skeleton-footer"></div>
-      </div>
-      <div class="skeleton-card">
-        <div class="skeleton-shimmer skeleton-meta"></div>
-        <div class="skeleton-shimmer skeleton-title"></div>
-        <div class="skeleton-shimmer skeleton-desc"></div>
-        <div class="skeleton-shimmer skeleton-desc-2"></div>
-        <div class="skeleton-shimmer skeleton-footer"></div>
-      </div>
-      <div class="skeleton-card">
-        <div class="skeleton-shimmer skeleton-meta"></div>
-        <div class="skeleton-shimmer skeleton-title"></div>
-        <div class="skeleton-shimmer skeleton-desc"></div>
-        <div class="skeleton-shimmer skeleton-desc-2"></div>
-        <div class="skeleton-shimmer skeleton-footer"></div>
-      </div>
-    `;
+  function openArticleModal(article) {
+    if (!elements.articleModal || !article) return;
+    state.currentModalArticleId = article.id;
+    markArticleAsSeen(article.id);
+
+    // Update URL hash for clean deep linking without full reload
+    window.location.hash = `/article/${encodeURIComponent(article.id)}`;
+
+    // Populate Modal Fields
+    elements.modalArticleTitle.textContent = article.title;
+    elements.modalArticleSource.textContent = article.source;
+    elements.modalArticleDate.textContent = `Published ${new Date(article.publishedAt).toLocaleDateString([], { month: 'short', day: 'numeric', year: 'numeric' })}`;
+    elements.modalArticleAuthor.textContent = `Report by ${article.author}`;
+
+    // Badges
+    elements.modalArticleBadges.innerHTML = '';
+    const catBadge = document.createElement('span');
+    catBadge.className = 'card-category-pill';
+    catBadge.textContent = article.category;
+    elements.modalArticleBadges.appendChild(catBadge);
+
+    if (article.severity) {
+      const sevBadge = document.createElement('span');
+      sevBadge.className = `severity-pill severity-${article.severity}`;
+      sevBadge.textContent = article.severity;
+      elements.modalArticleBadges.appendChild(sevBadge);
+    }
+
+    // CVE Box
+    if (article.cveId) {
+      elements.modalCveBox.style.display = 'block';
+      elements.modalCveId.textContent = article.cveId;
+      elements.modalCveCvss.textContent = article.cvssScore ? `CVSS ${article.cvssScore.toFixed(1)} / 10.0` : 'CVSS N/A';
+      elements.modalCveSeverity.textContent = article.severity || 'Vulnerability';
+      elements.modalCveSeverity.className = `severity-pill severity-${article.severity}`;
+
+      elements.modalCveAffectedList.innerHTML = '';
+      if (article.affectedProducts && article.affectedProducts.length > 0) {
+        article.affectedProducts.forEach((p) => {
+          const li = document.createElement('li');
+          li.textContent = p;
+          elements.modalCveAffectedList.appendChild(li);
+        });
+      } else {
+        const li = document.createElement('li');
+        li.textContent = 'Refer to primary vendor advisory for specific build versions.';
+        elements.modalCveAffectedList.appendChild(li);
+      }
+    } else {
+      elements.modalCveBox.style.display = 'none';
+    }
+
+    // Summary
+    elements.modalArticleSummary.textContent = article.summary;
+
+    // Why It Matters
+    if (article.whyItMatters) {
+      elements.modalWhySection.style.display = 'block';
+      elements.modalArticleWhy.textContent = article.whyItMatters;
+    } else {
+      elements.modalWhySection.style.display = 'none';
+    }
+
+    // Technical Details
+    if (article.technicalDetails) {
+      elements.modalTechSection.style.display = 'block';
+      elements.modalArticleTechnical.textContent = article.technicalDetails;
+    } else {
+      elements.modalTechSection.style.display = 'none';
+    }
+
+    // Security Recommendations & Remediation
+    if (article.recommendations) {
+      elements.modalRecSection.style.display = 'block';
+      elements.modalArticleRecommendations.textContent = article.recommendations;
+    } else {
+      elements.modalRecSection.style.display = 'none';
+    }
+
+    // Tags
+    elements.modalArticleTags.innerHTML = '';
+    if (article.tags && article.tags.length > 0) {
+      article.tags.forEach((tag) => {
+        const chip = document.createElement('span');
+        chip.className = 'tag-chip';
+        chip.textContent = `#${tag}`;
+        elements.modalArticleTags.appendChild(chip);
+      });
+    }
+
+    // Action Buttons
+    elements.modalSourceLink.href = article.sourceUrl || '#';
+    if (article.patchUrl) {
+      elements.modalPatchLink.style.display = 'inline-flex';
+      elements.modalPatchLink.href = article.patchUrl;
+    } else {
+      elements.modalPatchLink.style.display = 'none';
+    }
+
+    // Related Intelligence Cards
+    renderRelatedArticles(article);
+
+    // Show Modal
+    elements.articleModal.classList.add('open');
+    elements.articleModal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden'; // prevent background scrolling
+  }
+
+  function renderRelatedArticles(currentArticle) {
+    if (!elements.modalRelatedContainer) return;
+    elements.modalRelatedContainer.innerHTML = '';
+
+    const related = state.articles
+      .filter((a) => a.id !== currentArticle.id && (a.category === currentArticle.category || a.tags.some(t => currentArticle.tags.includes(t))))
+      .slice(0, 2);
+
+    if (related.length === 0) {
+      elements.modalRelatedContainer.innerHTML = '<p style="font-size: 0.84rem; color: var(--text-muted);">No additional related disclosures in this category.</p>';
+      return;
+    }
+
+    related.forEach((item) => {
+      const card = document.createElement('div');
+      card.className = 'related-card';
+      card.innerHTML = `
+        <div class="related-card-category">${sanitizeText(item.category)} • ${sanitizeText(item.source)}</div>
+        <div class="related-card-title">${sanitizeText(item.title)}</div>
+      `;
+      card.addEventListener('click', () => {
+        openArticleModal(item);
+      });
+      elements.modalRelatedContainer.appendChild(card);
+    });
+  }
+
+  function closeArticleModal() {
+    if (!elements.articleModal) return;
+    elements.articleModal.classList.remove('open');
+    elements.articleModal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    state.currentModalArticleId = null;
+
+    // Reset hash if currently on an article
+    if (window.location.hash.startsWith('#/article/')) {
+      history.pushState('', document.title, window.location.pathname + window.location.search);
+    }
   }
 
   /**
-   * Empty / No Results State
+   * 11. Hash Routing (Support Deep-Linking like #/article/:id)
+   */
+  function setupHashRouting() {
+    window.addEventListener('hashchange', checkHashRoute);
+    // Initial check on page load
+    setTimeout(checkHashRoute, 200);
+  }
+
+  function checkHashRoute() {
+    const hash = window.location.hash;
+    if (hash.startsWith('#/article/')) {
+      const articleId = decodeURIComponent(hash.replace('#/article/', ''));
+      const found = state.articles.find((a) => a.id === articleId);
+      if (found) {
+        openArticleModal(found);
+      }
+    } else if (hash === '' || hash === '#' || hash === '#/') {
+      if (elements.articleModal?.classList.contains('open')) {
+        closeArticleModal();
+      }
+    }
+  }
+
+  /**
+   * 12. Trust & Transparency Info Modals
+   */
+  function openInfoModal(pageKey) {
+    const page = TRUST_PAGES[pageKey];
+    if (!page || !elements.infoModal) return;
+
+    elements.infoModalTitle.textContent = page.title;
+    elements.infoModalBody.innerHTML = page.html;
+    elements.infoModal.classList.add('open');
+    elements.infoModal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeInfoModal() {
+    if (!elements.infoModal) return;
+    elements.infoModal.classList.remove('open');
+    elements.infoModal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+
+  /**
+   * 13. Empty State
    */
   function renderEmptyState(message) {
     if (!elements.newsContainer) return;
     elements.newsContainer.innerHTML = `
       <div class="empty-state">
         <div class="empty-icon">🛡️</div>
-        <div class="empty-title">No Articles Found</div>
+        <div class="empty-title">No Intelligence Reports Found</div>
         <p class="empty-subtitle">${sanitizeText(message)}</p>
+        <button id="btn-reset-filters" class="btn-reset-filter">Reset Filters &amp; Search</button>
       </div>
     `;
+
+    document.getElementById('btn-reset-filters')?.addEventListener('click', resetFilters);
   }
 
-  /**
-   * 10. Daily 9 AM Notification Feature
-   */
-  function checkDailyNotificationPrompt() {
-    const isGranted = localStorage.getItem(STORAGE_KEYS.NOTIFICATIONS) === 'true';
-    const promptShown = localStorage.getItem(STORAGE_KEYS.NOTIFY_PROMPT_SHOWN) === 'true';
+  function resetFilters() {
+    state.searchQuery = '';
+    state.activeCategory = 'All';
+    state.activeView = 'all';
+    state.activeSource = 'all';
 
-    state.notificationEnabled = isGranted && ('Notification' in window && Notification.permission === 'granted');
-    updateNotificationIconState();
+    if (elements.searchInput) elements.searchInput.value = '';
+    if (elements.searchClear) elements.searchClear.classList.remove('visible');
+    if (elements.sourceSelect) elements.sourceSelect.value = 'all';
 
-    // Show friendly prompt if not yet decided
-    if (!isGranted && !promptShown && 'Notification' in window && Notification.permission !== 'denied') {
-      setTimeout(() => {
-        if (elements.notificationPrompt) {
-          elements.notificationPrompt.classList.add('visible');
-        }
-      }, 2000);
-    }
-  }
-
-  async function requestNotificationPermission() {
-    if (!('Notification' in window)) {
-      showToast('Notifications are not supported in this browser.');
-      return;
-    }
-
-    try {
-      const permission = await Notification.requestPermission();
-      if (permission === 'granted') {
-        localStorage.setItem(STORAGE_KEYS.NOTIFICATIONS, 'true');
-        state.notificationEnabled = true;
-        updateNotificationIconState();
-        showToast('🔔 Daily 9:00 AM notifications enabled!');
-        
-        // Instant test notification confirmation
-        showNotification(
-          '🛡️ Daily Cyber News Enabled',
-          'You will receive morning reminders when new cyber security news is ready.'
-        );
-      } else {
-        localStorage.setItem(STORAGE_KEYS.NOTIFICATIONS, 'false');
-        state.notificationEnabled = false;
-        updateNotificationIconState();
-        showToast('Notification permission was not granted.');
-      }
-    } catch (err) {
-      console.warn('Notification permission error:', err);
-    } finally {
-      if (elements.notificationPrompt) {
-        elements.notificationPrompt.classList.remove('visible');
-      }
-      localStorage.setItem(STORAGE_KEYS.NOTIFY_PROMPT_SHOWN, 'true');
-    }
-  }
-
-  function showNotification(title, body) {
-    if (!('Notification' in window) || Notification.permission !== 'granted') {
-      return;
-    }
-
-    try {
-      // Try service worker notification first if available
-      if (navigator.serviceWorker && navigator.serviceWorker.controller) {
-        navigator.serviceWorker.controller.postMessage({
-          type: 'SHOW_NOTIFICATION',
-          title: title,
-          body: body
-        });
-      } else {
-        // Fallback to standard Notification API
-        new Notification(title, {
-          body: body,
-          icon: 'assets/icon.svg',
-          tag: 'cyber-news-daily'
-        });
-      }
-    } catch (e) {
-      console.warn('Failed to display notification:', e);
-    }
-  }
-
-  /**
-   * 9 AM Reminder Scheduler
-   */
-  function scheduleDaily9AMCheck() {
-    // Check every 60 seconds if it's 9:00 AM local time
-    setInterval(checkDailyNotification, 60 * 1000);
-    // Also run immediate check
-    checkDailyNotification();
-  }
-
-  function checkDailyNotification() {
-    const now = new Date();
-    const todayStr = now.toDateString();
-    const targetHour = window.appConfig?.dailyNotificationHour ?? 9;
-    const targetMinute = window.appConfig?.dailyNotificationMinute ?? 0;
-
-    const lastNotified = localStorage.getItem(STORAGE_KEYS.LAST_9AM_NOTIFIED);
-
-    // If current time is 9:00 AM to 9:30 AM and hasn't notified today
-    if (now.getHours() === targetHour && now.getMinutes() >= targetMinute && lastNotified !== todayStr) {
-      localStorage.setItem(STORAGE_KEYS.LAST_9AM_NOTIFIED, todayStr);
-
-      if (state.notificationEnabled) {
-        showNotification(
-          '🔔 Daily Cyber News Ready',
-          'Your daily cyber security & hacking news is ready. Tap to view the latest updates!'
-        );
-      }
-
-      // Auto-refresh to ensure morning news is fresh
-      refreshNews(true);
-    }
-
-    // Check if 9 AM banner should be displayed
-    updateDailyUpdateBanner();
-  }
-
-  function updateDailyUpdateBanner() {
-    if (!elements.bannerDaily) return;
-
-    if (isNearNineAM()) {
-      elements.bannerDaily.classList.add('visible');
-      const count = state.dailyUpdateCount > 0 ? state.dailyUpdateCount : state.articles.length;
-      if (count > 0) {
-        elements.bannerDailyText.textContent = `Today's update: ${count} new articles available`;
-      } else {
-        elements.bannerDailyText.textContent = `Today's 9 AM cyber security briefing is ready.`;
-      }
-    } else {
-      elements.bannerDaily.classList.remove('visible');
-    }
-  }
-
-  function isNearNineAM() {
-    const now = new Date();
-    // Consider 8:30 AM to 11:59 AM as morning update window
-    return now.getHours() >= 8 && now.getHours() <= 12;
-  }
-
-  function calculateNewArticles(fetchedArticles) {
-    let unreadCount = 0;
-    fetchedArticles.forEach((a) => {
-      if (!state.seenArticleIds.has(a.id)) {
-        unreadCount++;
-      }
+    // Reset Hub Tabs
+    document.querySelectorAll('.hub-tab').forEach((tab) => {
+      tab.classList.toggle('active', tab.dataset.view === 'all');
     });
-    state.dailyUpdateCount = unreadCount;
-    updateDailyUpdateBanner();
-  }
 
-  function markArticleAsSeen(articleId) {
-    if (!articleId) return;
-    state.seenArticleIds.add(articleId);
-    saveSeenIds();
-  }
+    // Reset Category Pills
+    elements.categoryPills?.querySelectorAll('.category-pill').forEach((pill) => {
+      pill.classList.toggle('active', pill.textContent === 'All');
+    });
 
-  /**
-   * 11. Caching & Offline Handling
-   */
-  function saveCache() {
-    try {
-      // Cache latest 100 articles
-      const toCache = state.articles.slice(0, 100);
-      localStorage.setItem(STORAGE_KEYS.CACHED_ARTICLES, JSON.stringify(toCache));
-      if (state.lastUpdated) {
-        localStorage.setItem(STORAGE_KEYS.LAST_UPDATED, state.lastUpdated.toISOString());
-      }
-    } catch (e) {
-      console.warn('LocalStorage save error:', e);
-    }
-  }
-
-  function loadCache() {
-    try {
-      const cached = localStorage.getItem(STORAGE_KEYS.CACHED_ARTICLES);
-      if (cached) {
-        const parsed = JSON.parse(cached);
-        if (Array.isArray(parsed) && parsed.length > 0) {
-          state.articles = parsed;
-          filterAndRender();
-        }
-      }
-
-      const savedTime = localStorage.getItem(STORAGE_KEYS.LAST_UPDATED);
-      if (savedTime) {
-        state.lastUpdated = new Date(savedTime);
-        updateLastUpdatedDisplay();
-      }
-
-      const savedSeen = localStorage.getItem(STORAGE_KEYS.SEEN_IDS);
-      if (savedSeen) {
-        state.seenArticleIds = new Set(JSON.parse(savedSeen));
-      }
-    } catch (e) {
-      console.warn('LocalStorage load error:', e);
-    }
-  }
-
-  function saveSeenIds() {
-    try {
-      // Keep seen IDs capped to recent 300
-      const idsArray = Array.from(state.seenArticleIds).slice(-300);
-      localStorage.setItem(STORAGE_KEYS.SEEN_IDS, JSON.stringify(idsArray));
-    } catch (e) {
-      // Ignore
-    }
-  }
-
-  function checkOfflineStatus() {
-    const isOffline = !navigator.onLine;
-    if (elements.bannerOffline) {
-      if (isOffline) {
-        elements.bannerOffline.classList.add('visible');
-      } else {
-        elements.bannerOffline.classList.remove('visible');
-      }
-    }
+    filterAndRender();
   }
 
   /**
-   * 12. UI Controls & Event Listeners
+   * 14. UI Controls & Listeners
    */
   function setupUIControls() {
-    // Refresh Button Click
+    // Refresh Button
     elements.btnRefresh?.addEventListener('click', () => {
-      refreshNews(false);
+      refreshNews(false, false);
     });
 
-    // Theme Toggle Click
+    // Theme Toggle
     elements.btnTheme?.addEventListener('click', toggleTheme);
 
-    // Notification Icon Button Click
+    // Notification Button
     elements.btnNotification?.addEventListener('click', () => {
       if (!state.notificationEnabled) {
         requestNotificationPermission();
       } else {
-        showToast('Daily 9:00 AM notifications are active.');
+        showToast('🔔 Daily 9:00 AM security briefing is active.');
       }
     });
 
-    // Notification Prompt Buttons
     elements.btnNotifyEnable?.addEventListener('click', requestNotificationPermission);
     elements.btnNotifyDismiss?.addEventListener('click', () => {
-      if (elements.notificationPrompt) {
-        elements.notificationPrompt.classList.remove('visible');
-      }
+      elements.notificationPrompt?.classList.remove('visible');
       localStorage.setItem(STORAGE_KEYS.NOTIFY_PROMPT_SHOWN, 'true');
+    });
+
+    // Hub View Tabs
+    document.querySelectorAll('.hub-tab').forEach((tab) => {
+      tab.addEventListener('click', (e) => {
+        document.querySelectorAll('.hub-tab').forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        state.activeView = tab.dataset.view || 'all';
+        filterAndRender();
+      });
     });
 
     // Source Filter Change
@@ -912,20 +1041,13 @@
     elements.searchInput?.addEventListener('input', (e) => {
       clearTimeout(debounceTimer);
       const val = e.target.value;
-      
-      // Show or hide clear button
       if (elements.searchClear) {
-        if (val.length > 0) {
-          elements.searchClear.classList.add('visible');
-        } else {
-          elements.searchClear.classList.remove('visible');
-        }
+        elements.searchClear.classList.toggle('visible', val.length > 0);
       }
-
       debounceTimer = setTimeout(() => {
         state.searchQuery = val;
         filterAndRender();
-      }, 200);
+      }, 150);
     });
 
     // Clear Search Button
@@ -939,16 +1061,59 @@
       }
     });
 
-    // Network Online/Offline Listeners
+    // Article Modal Close
+    elements.modalArticleClose?.addEventListener('click', closeArticleModal);
+    elements.articleModal?.addEventListener('click', (e) => {
+      if (e.target === elements.articleModal) closeArticleModal();
+    });
+
+    // Info Modal Close
+    elements.infoModalClose?.addEventListener('click', closeInfoModal);
+    elements.infoModal?.addEventListener('click', (e) => {
+      if (e.target === elements.infoModal) closeInfoModal();
+    });
+
+    // Trust / Info Modal Triggers
+    document.querySelectorAll('.js-open-modal').forEach((trigger) => {
+      trigger.addEventListener('click', (e) => {
+        e.preventDefault();
+        const key = trigger.getAttribute('data-modal');
+        if (key) openInfoModal(key);
+      });
+    });
+
+    // Share Button
+    elements.modalShareBtn?.addEventListener('click', () => {
+      const url = window.location.href;
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(url).then(() => {
+          showToast('📋 Link copied to clipboard!');
+        }).catch(() => {
+          showToast('Link: ' + url);
+        });
+      } else {
+        showToast('Link: ' + url);
+      }
+    });
+
+    // Keyboard ESC to close modals
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        if (elements.articleModal?.classList.contains('open')) closeArticleModal();
+        if (elements.infoModal?.classList.contains('open')) closeInfoModal();
+      }
+    });
+
+    // Online / Offline Listeners
     window.addEventListener('online', () => {
       checkOfflineStatus();
-      showToast('Network restored. Refreshing news...');
-      refreshNews(true);
+      showToast('⚡ Network connection restored. Syncing feeds...');
+      refreshNews(true, false);
     });
 
     window.addEventListener('offline', () => {
       checkOfflineStatus();
-      showToast('You are currently offline.');
+      showToast('📡 You are offline. Serving cached intelligence.');
     });
   }
 
@@ -956,7 +1121,6 @@
     state.activeCategory = category;
     localStorage.setItem(STORAGE_KEYS.SELECTED_CATEGORY, category);
 
-    // Update pill styles
     const pills = elements.categoryPills?.querySelectorAll('.category-pill');
     pills?.forEach((pill) => {
       const isCurrent = pill.textContent === category;
@@ -968,17 +1132,11 @@
   }
 
   /**
-   * 13. Theme Handling (Light / Dark)
+   * 15. Theme Handling
    */
   function loadTheme() {
-    const savedTheme = localStorage.getItem(STORAGE_KEYS.THEME);
-    if (savedTheme) {
-      setTheme(savedTheme);
-    } else {
-      // Respect system preference if available
-      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      setTheme(prefersDark ? 'dark' : 'dark'); // default sleek dark
-    }
+    const savedTheme = localStorage.getItem(STORAGE_KEYS.THEME) || 'dark';
+    setTheme(savedTheme);
   }
 
   function toggleTheme() {
@@ -1000,48 +1158,196 @@
     }
   }
 
-  function updateNotificationIconState() {
-    if (elements.btnNotification) {
-      if (state.notificationEnabled) {
-        elements.btnNotification.classList.add('active');
-        elements.btnNotification.title = 'Daily 9:00 AM notifications enabled';
+  /**
+   * 16. Daily 9 AM Notification Workflow
+   */
+  function checkDailyNotificationPrompt() {
+    const isGranted = localStorage.getItem(STORAGE_KEYS.NOTIFICATIONS) === 'true';
+    const promptShown = localStorage.getItem(STORAGE_KEYS.NOTIFY_PROMPT_SHOWN) === 'true';
+
+    state.notificationEnabled = isGranted && ('Notification' in window && Notification.permission === 'granted');
+    updateNotificationIconState();
+
+    if (!isGranted && !promptShown && 'Notification' in window && Notification.permission !== 'denied') {
+      setTimeout(() => {
+        elements.notificationPrompt?.classList.add('visible');
+      }, 3000);
+    }
+  }
+
+  async function requestNotificationPermission() {
+    if (!('Notification' in window)) {
+      showToast('Notifications are not supported in this browser.');
+      return;
+    }
+
+    try {
+      const permission = await Notification.requestPermission();
+      if (permission === 'granted') {
+        localStorage.setItem(STORAGE_KEYS.NOTIFICATIONS, 'true');
+        state.notificationEnabled = true;
+        updateNotificationIconState();
+        showToast('🔔 Daily 9:00 AM notifications enabled!');
+        
+        new Notification('🛡️ Cyber Daily Briefing Active', {
+          body: 'Morning security briefings will notify you when fresh CVEs and bug bounties drop.',
+          icon: 'assets/icon.svg'
+        });
       } else {
-        elements.btnNotification.classList.remove('active');
-        elements.btnNotification.title = 'Click to enable daily 9:00 AM notifications';
+        localStorage.setItem(STORAGE_KEYS.NOTIFICATIONS, 'false');
+        state.notificationEnabled = false;
+        updateNotificationIconState();
       }
+    } catch (err) {
+      console.warn('Notification permission error:', err);
+    } finally {
+      elements.notificationPrompt?.classList.remove('visible');
+      localStorage.setItem(STORAGE_KEYS.NOTIFY_PROMPT_SHOWN, 'true');
+    }
+  }
+
+  function updateNotificationIconState() {
+    if (!elements.btnNotification) return;
+    elements.btnNotification.classList.toggle('active', state.notificationEnabled);
+  }
+
+  function scheduleDaily9AMCheck() {
+    setInterval(checkDailyNotification, 60 * 1000);
+    checkDailyNotification();
+  }
+
+  function checkDailyNotification() {
+    const now = new Date();
+    const todayStr = now.toDateString();
+    const targetHour = window.appConfig?.dailyNotificationHour ?? 9;
+    const targetMinute = window.appConfig?.dailyNotificationMinute ?? 0;
+    const lastNotified = localStorage.getItem(STORAGE_KEYS.LAST_9AM_NOTIFIED);
+
+    if (now.getHours() === targetHour && now.getMinutes() >= targetMinute && lastNotified !== todayStr) {
+      localStorage.setItem(STORAGE_KEYS.LAST_9AM_NOTIFIED, todayStr);
+
+      if (state.notificationEnabled && 'Notification' in window && Notification.permission === 'granted') {
+        new Notification('🔔 Cyber Daily Morning Briefing', {
+          body: 'Today’s critical vulnerability disclosures and bug bounty updates are live.',
+          icon: 'assets/icon.svg'
+        });
+      }
+
+      refreshNews(true, false);
+    }
+
+    updateDailyUpdateBanner();
+  }
+
+  function updateDailyUpdateBanner() {
+    if (!elements.bannerDaily) return;
+    const now = new Date();
+    const isMorning = now.getHours() >= 8 && now.getHours() <= 12;
+
+    if (isMorning) {
+      elements.bannerDaily.classList.add('visible');
+      elements.bannerDailyText.textContent = `Today's Morning Briefing: ${state.articles.length} verified intelligence reports ready.`;
+    } else {
+      elements.bannerDaily.classList.remove('visible');
+    }
+  }
+
+  function calculateNewArticles(fetchedArticles) {
+    let unreadCount = 0;
+    fetchedArticles.forEach((a) => {
+      if (!state.seenArticleIds.has(a.id)) {
+        unreadCount++;
+      }
+    });
+    state.dailyUpdateCount = unreadCount;
+    updateDailyUpdateBanner();
+  }
+
+  function markArticleAsSeen(articleId) {
+    if (!articleId) return;
+    state.seenArticleIds.add(articleId);
+    saveSeenIds();
+  }
+
+  /**
+   * 17. Cache & Storage Helpers
+   */
+  function saveCache() {
+    try {
+      const toCache = state.articles.slice(0, 100);
+      localStorage.setItem(STORAGE_KEYS.CACHED_ARTICLES, JSON.stringify(toCache));
+      if (state.lastUpdated) {
+        localStorage.setItem(STORAGE_KEYS.LAST_UPDATED, state.lastUpdated.toISOString());
+      }
+    } catch (e) {
+      console.warn('LocalStorage error:', e);
+    }
+  }
+
+  function loadCache() {
+    try {
+      const cached = localStorage.getItem(STORAGE_KEYS.CACHED_ARTICLES);
+      if (cached) {
+        const parsed = JSON.parse(cached);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          state.articles = parsed;
+          return true;
+        }
+      }
+
+      const savedTime = localStorage.getItem(STORAGE_KEYS.LAST_UPDATED);
+      if (savedTime) {
+        state.lastUpdated = new Date(savedTime);
+        updateLastUpdatedDisplay();
+      }
+
+      const savedSeen = localStorage.getItem(STORAGE_KEYS.SEEN_IDS);
+      if (savedSeen) {
+        state.seenArticleIds = new Set(JSON.parse(savedSeen));
+      }
+    } catch (e) {
+      console.warn('Cache loading note:', e);
+    }
+    return false;
+  }
+
+  function saveSeenIds() {
+    try {
+      const idsArray = Array.from(state.seenArticleIds).slice(-300);
+      localStorage.setItem(STORAGE_KEYS.SEEN_IDS, JSON.stringify(idsArray));
+    } catch (e) {}
+  }
+
+  function checkOfflineStatus() {
+    const isOffline = !navigator.onLine;
+    if (elements.bannerOffline) {
+      elements.bannerOffline.classList.toggle('visible', isOffline);
     }
   }
 
   function setRefreshSpinning(isSpinning) {
     const svg = elements.btnRefresh?.querySelector('svg');
     if (svg) {
-      if (isSpinning) {
-        svg.classList.add('spin');
-      } else {
-        svg.classList.remove('spin');
-      }
+      svg.classList.toggle('spin', isSpinning);
     }
   }
 
   function updateLastUpdatedDisplay() {
     if (!elements.lastUpdatedText) return;
     if (!state.lastUpdated) {
-      elements.lastUpdatedText.textContent = 'Last updated: --';
+      elements.lastUpdatedText.textContent = 'Last sync: --';
       return;
     }
     const timeStr = state.lastUpdated.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-    elements.lastUpdatedText.textContent = `Last updated: ${timeStr}`;
+    elements.lastUpdatedText.textContent = `Last sync: ${timeStr}`;
   }
 
   function updateStatsDisplay(count) {
     if (elements.articleCount) {
-      elements.articleCount.textContent = `${count} ${count === 1 ? 'article' : 'articles'}`;
+      elements.articleCount.textContent = `${count} ${count === 1 ? 'Report' : 'Reports'}`;
     }
   }
 
-  /**
-   * 14. Relative Time Formatter
-   */
   function formatRelativeTime(dateString) {
     const date = new Date(dateString);
     if (isNaN(date.getTime())) return 'Recently';
@@ -1051,69 +1357,59 @@
 
     if (diffSeconds < 60) return 'Just now';
     if (diffSeconds < 3600) {
-      const minutes = Math.floor(diffSeconds / 60);
-      return `${minutes} ${minutes === 1 ? 'minute' : 'minutes'} ago`;
+      const min = Math.floor(diffSeconds / 60);
+      return `${min}m ago`;
     }
     if (diffSeconds < 86400) {
-      const hours = Math.floor(diffSeconds / 3600);
-      return `${hours} ${hours === 1 ? 'hour' : 'hours'} ago`;
+      const hr = Math.floor(diffSeconds / 3600);
+      return `${hr}h ago`;
     }
     if (diffSeconds < 172800) return 'Yesterday';
     const days = Math.floor(diffSeconds / 86400);
-    if (days <= 30) return `${days} days ago`;
+    if (days <= 30) return `${days}d ago`;
 
     return date.toLocaleDateString([], { month: 'short', day: 'numeric' });
   }
 
-  /**
-   * 15. Intelligent Category Detection
-   */
-  function detectCategory(text, defaultCategory = 'Cyber Security') {
-    if (!text) return defaultCategory;
+  function detectCategory(text, defaultCat = 'Cybersecurity News') {
+    if (!text) return defaultCat;
     const lower = text.toLowerCase();
 
-    if (lower.includes('bounty') || lower.includes('hackerone') || lower.includes('bugcrowd') || lower.includes('writeup') || lower.includes('disclosed')) {
+    if (lower.includes('bounty') || lower.includes('hackerone') || lower.includes('bugcrowd') || lower.includes('writeup')) {
       return 'Bug Bounty';
     }
-    if (lower.includes('cve-') || lower.includes('vulnerability') || lower.includes('zero-day') || lower.includes('0-day') || lower.includes('patch')) {
-      return 'Vulnerabilities';
+    if (lower.includes('cve-') || lower.includes('zero-day') || lower.includes('0-day') || lower.includes('vulnerability')) {
+      return 'CVE / Vulnerabilities';
     }
-    if (lower.includes('malware') || lower.includes('ransomware') || lower.includes('trojan') || lower.includes('botnet') || lower.includes('spyware')) {
-      return 'Malware';
+    if (lower.includes('tool') || lower.includes('nuclei') || lower.includes('burp') || lower.includes('scanner') || lower.includes('subfinder')) {
+      return 'Hacking & Security Tools';
     }
-    if (lower.includes('xss') || lower.includes('sqli') || lower.includes('csrf') || lower.includes('ssrf') || lower.includes('web security')) {
-      return 'Web Security';
-    }
-    if (lower.includes('aws') || lower.includes('azure') || lower.includes('gcp') || lower.includes('cloud security') || lower.includes('kubernetes') || lower.includes('s3')) {
-      return 'Cloud Security';
+    if (lower.includes('breach') || lower.includes('leaked') || lower.includes('database dump') || lower.includes('ransomware')) {
+      return 'Data Breaches';
     }
     if (lower.includes('llm') || lower.includes('ai security') || lower.includes('prompt injection') || lower.includes('gpt')) {
       return 'AI Security';
     }
-    if (lower.includes('tool') || lower.includes('github') || lower.includes('scanner') || lower.includes('nuclei') || lower.includes('burp')) {
-      return 'Tools';
+    if (lower.includes('xss') || lower.includes('sqli') || lower.includes('ssrf') || lower.includes('idor') || lower.includes('csrf')) {
+      return 'Web Security';
     }
-    if (lower.includes('privacy') || lower.includes('gdpr') || lower.includes('surveillance') || lower.includes('tracking')) {
-      return 'Privacy';
+    if (lower.includes('aws') || lower.includes('azure') || lower.includes('gcp') || lower.includes('cloud') || lower.includes('s3') || lower.includes('iam')) {
+      return 'Cloud Security';
     }
-    if (lower.includes('research') || lower.includes('analysis') || lower.includes('paper') || lower.includes('reverse engineering')) {
-      return 'Research';
+    if (lower.includes('job') || lower.includes('hiring') || lower.includes('analyst') || lower.includes('engineer') || lower.includes('career')) {
+      return 'Cybersecurity Jobs';
     }
-    if (lower.includes('hack') || lower.includes('exploit') || lower.includes('breach') || lower.includes('phishing')) {
-      return 'Hacking';
+    if (lower.includes('roadmap') || lower.includes('learn') || lower.includes('tutorial') || lower.includes('guide') || lower.includes('ctf')) {
+      return 'Learning';
     }
 
-    return defaultCategory;
+    return defaultCat;
   }
 
-  /**
-   * 16. Utility Helpers (Sanitization & Cleanup)
-   */
   function normalizeUrlForDeduplication(url) {
     if (!url) return '';
     try {
       const parsed = new URL(url);
-      // Strip common tracking parameters
       parsed.searchParams.delete('utm_source');
       parsed.searchParams.delete('utm_medium');
       parsed.searchParams.delete('utm_campaign');
@@ -1121,10 +1417,7 @@
       parsed.searchParams.delete('utm_content');
       parsed.hash = '';
       let clean = parsed.toString();
-      // Remove trailing slash
-      if (clean.endsWith('/')) {
-        clean = clean.slice(0, -1);
-      }
+      if (clean.endsWith('/')) clean = clean.slice(0, -1);
       return clean;
     } catch (e) {
       return url.trim().toLowerCase();
@@ -1133,10 +1426,8 @@
 
   function cleanPlainText(raw) {
     if (!raw) return '';
-    // Strip HTML tags using browser DOMParser
     const doc = new DOMParser().parseFromString(raw, 'text/html');
     const text = doc.body.textContent || '';
-    // Collapse excess whitespace and newlines
     return text.replace(/\s+/g, ' ').trim();
   }
 
@@ -1148,19 +1439,13 @@
   function sanitizeUrl(url) {
     if (!url || typeof url !== 'string') return '#';
     const trimmed = url.trim();
-    if (trimmed.startsWith('https://') || trimmed.startsWith('http://') || trimmed.startsWith('./')) {
+    if (trimmed.startsWith('https://') || trimmed.startsWith('http://') || trimmed.startsWith('./') || trimmed.startsWith('#/')) {
       return trimmed;
     }
     return '#';
   }
 
-  function extractImgFromHTML(htmlString) {
-    if (!htmlString || typeof htmlString !== 'string') return null;
-    const match = htmlString.match(/<img[^>]+src=["'](https?:\/\/[^"']+)["']/i);
-    return match ? match[1] : null;
-  }
-
-  function showToast(message, duration = 3000) {
+  function showToast(message, duration = 3200) {
     if (!elements.toastContainer) return;
 
     const toast = document.createElement('div');
@@ -1169,7 +1454,6 @@
 
     elements.toastContainer.appendChild(toast);
 
-    // Trigger reflow to animate
     requestAnimationFrame(() => {
       toast.classList.add('show');
     });
@@ -1184,7 +1468,7 @@
     }, duration);
   }
 
-  // Run on DOM Content Loaded
+  // Run on DOM Ready
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init);
   } else {

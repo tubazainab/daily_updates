@@ -1,0 +1,34 @@
+name: Update Cybersecurity Intelligence Feeds
+
+on:
+  schedule:
+    # Run every 6 hours
+    - cron: '0 */6 * * *'
+  workflow_dispatch: # Allows manual trigger from GitHub Actions tab
+
+jobs:
+  update-feeds:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Run Feed Aggregator Script
+        run: |
+          python scripts/fetch_feeds.py
+
+      - name: Commit and Push Updated Articles
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/articles.json
+          git diff-index --quiet HEAD || git commit -m "automation: update cybersecurity articles & CVE feed [skip ci]"
+          git push

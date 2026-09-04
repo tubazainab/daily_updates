@@ -1,0 +1,94 @@
+{
+  "name": "Cyber Daily - Automated Feed Pipeline",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours",
+              "hoursInterval": 6
+            }
+          ]
+        }
+      },
+      "id": "schedule-trigger",
+      "name": "Schedule (Every 6 Hours)",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.1,
+      "position": [240, 300]
+    },
+    {
+      "parameters": {
+        "url": "https://hn.algolia.com/api/v1/search_by_date?tags=story&query=cybersecurity+OR+vulnerability+OR+exploit+OR+infosec",
+        "options": {}
+      },
+      "id": "fetch-hn",
+      "name": "Fetch Hacker News InfoSec API",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [460, 220]
+    },
+    {
+      "parameters": {
+        "url": "https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json",
+        "options": {}
+      },
+      "id": "fetch-cisa-kev",
+      "name": "Fetch CISA KEV JSON",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [460, 380]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Normalizes incoming entries into Cyber Daily JSON format\nconst items = $input.all();\nconst output = [];\n\nfor (const item of items) {\n  const data = item.json;\n  // Handle CISA KEV or HN feeds\n  if (data.cveID) {\n    output.push({\n      id: `cisa-${data.cveID.toLowerCase()}`,\n      title: `CISA Alert: ${data.vendorProject} ${data.product} (${data.cveID})`,\n      summary: data.shortDescription || data.vulnerabilityName,\n      category: 'CVE / Vulnerabilities',\n      source: 'CISA KEV',\n      sourceUrl: `https://nvd.nist.gov/vuln/detail/${data.cveID}`,\n      publishedAt: new Date().toISOString(),\n      tags: [data.cveID, 'CISA-KEV', 'Exploited'],\n      cveId: data.cveID,\n      severity: 'Critical',\n      cvssScore: 9.0,\n      whyItMatters: 'Actively weaponized in the wild according to CISA.',\n      technicalDetails: `Affects ${data.vendorProject} ${data.product}.`,\n      affectedProducts: [`${data.vendorProject} ${data.product}`],\n      recommendations: data.requiredAction || 'Apply vendor updates.'\n    });\n  } else if (data.title) {\n    output.push({\n      id: `feed-${data.objectID || Math.random().toString(36).substring(2, 8)}`,\n      title: data.title,\n      summary: data.story_text || `Discussion: ${data.title}`,\n      category: 'Cybersecurity News',\n      source: 'Hacker News InfoSec',\n      sourceUrl: data.url || `https://news.ycombinator.com/item?id=${data.objectID}`,\n      publishedAt: data.created_at || new Date().toISOString(),\n      tags: ['Security', 'Community'],\n      severity: 'Medium',\n      cvssScore: 0.0\n    });\n  }\n}\n\nreturn output.map(o => ({ json: o }));"
+      },
+      "id": "transform-data",
+      "name": "Transform to Cyber Daily Schema",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [700, 300]
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "owner": "tubazainab",
+        "repository": "daily_updates",
+        "filePath": "data/articles.json",
+        "fileContent": "={{ JSON.stringify($input.all().map(i => i.json), null, 2) }}",
+        "commitMessage": "automation: sync cybersecurity articles and CVE disclosures"
+      },
+      "id": "github-commit",
+      "name": "Commit to GitHub Pages Repo",
+      "type": "n8n-nodes-base.github",
+      "typeVersion": 1,
+      "position": [920, 300]
+    }
+  ],
+  "connections": {
+    "Schedule (Every 6 Hours)": {
+      "main": [
+        [
+          { "node": "Fetch Hacker News InfoSec API", "type": "main", "index": 0 },
+          { "node": "Fetch CISA KEV JSON", "type": "main", "index": 0 }
+        ]
+      ]
+    },
+    "Fetch Hacker News InfoSec API": {
+      "main": [
+        [{ "node": "Transform to Cyber Daily Schema", "type": "main", "index": 0 }]
+      ]
+    },
+    "Fetch CISA KEV JSON": {
+      "main": [
+        [{ "node": "Transform to Cyber Daily Schema", "type": "main", "index": 0 }]
+      ]
+    },
+    "Transform to Cyber Daily Schema": {
+      "main": [
+        [{ "node": "Commit to GitHub Pages Repo", "type": "main", "index": 0 }]
+      ]
+    }
+  }
+}

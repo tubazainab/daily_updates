@@ -1,21 +1,43 @@
-# 🛡️ Cyber Security & Hacking News Aggregator
+# 🛡️ CYBER DAILY - Cybersecurity & Bug Bounty Hub
 
-A clean, fast, lightweight, and mobile-first news dashboard built exclusively with **HTML5**, **CSS3**, and **Vanilla JavaScript**. It aggregates the latest cybersecurity, ethical hacking, bug bounty, vulnerability disclosures, and infosec articles from multiple trusted sources into a single, unified, chronological feed.
+> **"Your Daily Cybersecurity & Bug Bounty Updates"**  
+> Live URL: [https://tubazainab.github.io/daily_updates/](https://tubazainab.github.io/daily_updates/)
 
-Designed specifically to run seamlessly on **GitHub Pages** with zero build steps, zero external frameworks, and offline resilience.
+A modern, fast, lightweight, and automation-ready cybersecurity intelligence platform built for **ethical hackers**, **bug bounty hunters**, **SOC analysts**, and **cybersecurity students**. 
+
+Runs 100% client-side on **GitHub Pages** with zero build steps, zero external npm frameworks, and offline resilience.
 
 ---
 
-## 📱 Mobile-First Experience
+## 🚀 Key Features
 
-* **Single-Column Feed**: Optimized for mobile phones with large readable headlines and comfortable touch targets.
-* **Instant Client-Side Search**: Debounced, zero-delay search filtering across titles, summaries, categories, and sources.
-* **Dynamic Category Pills**: One-tap filtering for *Cyber Security*, *Hacking*, *Bug Bounty*, *Vulnerabilities*, *Cloud Security*, *AI Security*, and more.
-* **Source Filter**: Isolate articles by specific publications or view all aggregated together.
-* **Auto-Deduplication**: Automatically removes duplicate stories across feeds by normalizing URLs and query parameters.
-* **Dark / Light Mode**: System-aware theme toggle with instant persistence in `localStorage`.
-* **Daily 9:00 AM Notification**: Morning reminder when new security briefings are ready.
-* **Offline Ready**: Automatically caches the latest stories so you can read previously loaded news even on intermittent mobile connections.
+* **Guaranteed Content (Never 0 Articles)**: Bundled with verified cybersecurity disclosures (`data/articles.json`) so the dashboard is populated immediately even on first visits, offline, or when third-party proxies are throttled.
+* **Infosec Dashboard & Real-Time Stats**: Dynamic counters computing **Total Reports**, **Critical CVEs**, **Bug Bounty Scopes**, and **Security Tools** on the fly.
+* **Dedicated CVE Tracker**: Clear severity badges (`Critical`, `High`, `Medium`, `Low`), **CVSS v3.1 score meters** (e.g. `9.8 / 10.0`), monospaced CVE tags (`CVE-2024-XXXX`), affected software packages, and direct links to NVD/MSRC/vendor patch advisories.
+* **Dedicated Bug Bounty Hub**: Scope expansions, high-payout programs, recon methodology tips, and strict **Responsible Disclosure & Ethics** safe-harbor standards.
+* **Deep-Dive Article Reader Modal**: In-depth intelligence drawer with URL hash routing (`#/article/:id`) for sharing and back-button history navigation. Includes:
+  * Executive Summary
+  * **"Why It Matters to Defenders & Hunters"** callout
+  * Technical Deep-Dive & Root-Cause Analysis
+  * Affected Software & Configurations
+  * Security Recommendations & Fix Guidance
+  * Official Source & Patch Links
+  * Related Disclosures
+* **Instant Multi-Field Search**: Client-side, debounced searching across Title, Summary, Tags, Category, and CVE IDs with quick-clear and intelligent empty states.
+* **10 Granular InfoSec Categories**:
+  * Cybersecurity News
+  * CVE / Vulnerabilities
+  * Bug Bounty
+  * Hacking & Security Tools
+  * Data Breaches
+  * AI Security
+  * Web Security
+  * Cloud Security
+  * Cybersecurity Jobs
+  * Learning & Roadmaps
+* **Trust & Transparency**: Built-in modal dialogues for **About Cyber Daily**, **Verified Sources**, **Contact & Submissions**, **Privacy Policy**, **Terms of Use**, and **Anti-Cybercrime Policy**.
+* **Monetization-Ready**: Non-intrusive, clean placement for sponsored infosec tools, certification affiliate links, and commented Google AdSense placeholder slots.
+* **Automated Data Pipelines**: Comes pre-configured with a Python ingestion script (`scripts/fetch_feeds.py`), GitHub Actions cron (`.github/workflows/update_feeds.yml`), and an n8n workflow (`n8n/cyber_daily_workflow.json`).
 
 ---
 
@@ -23,190 +45,145 @@ Designed specifically to run seamlessly on **GitHub Pages** with zero build step
 
 ```text
 Daily Updates/
-├── index.html            # Semantic HTML5 layout and mobile structure
-├── style.css             # Vanilla CSS design system, dark/light themes & skeleton cards
-├── script.js             # Core engine (fetch, deduplicate, filter, search, notify, cache)
-├── manifest.json         # Web App Manifest for mobile "Add to Home Screen"
-├── service-worker.js     # Service Worker for offline asset caching and push notifications
-├── README.md             # Complete user and developer guide
+├── index.html                   # Modern cybersecurity dashboard layout & modals
+├── style.css                    # Slate/Obsidian infosec theme, CVSS meters & responsive grid
+├── script.js                    # Core engine (guaranteed loader, search, stats, modal reader)
+├── manifest.json                # PWA manifest for Add to Home Screen
+├── service-worker.js            # Offline asset caching & notifications
+├── robots.txt                   # Search crawler directives
+├── sitemap.xml                  # SEO search engine sitemap
+├── README.md                    # Platform documentation & deployment guide
 ├── assets/
-│   └── icon.svg          # Cyber shield vector icon
-└── data/
-    └── sources.js        # Easy-to-edit configuration file for feeds and settings
+│   └── icon.svg                 # Vector shield logo
+├── data/
+│   ├── articles.json            # Structured dataset of cybersecurity articles & CVEs
+│   └── sources.js               # Feed sources, categories, and proxy config
+├── scripts/
+│   └── fetch_feeds.py           # Automated Python script to pull CISA KEV, HN, and CVEs
+├── n8n/
+│   └── cyber_daily_workflow.json# Importable n8n workflow template
+└── .github/
+    └── workflows/
+        └── update_feeds.yml     # Automated GitHub Actions scheduled updater (every 6 hours)
 ```
 
 ---
 
-## ⚙️ How to Add or Remove News Sources
+## 📝 Article Data Schema (`data/articles.json`)
 
-All news sources are managed in [`data/sources.js`](data/sources.js). The main application code (`script.js`) dynamically reads this file and does **not** need to be touched.
+All articles adhere to this standard, automation-ready JSON schema:
 
-### Adding a New Source
-
-Open `data/sources.js` and add an object to the `newsSources` array:
-
-```javascript
+```json
 {
-  id: "krebs-on-security",
-  name: "Krebs on Security",
-  feed: "https://krebsonsecurity.com/feed/",
-  type: "rss",
-  category: "Cyber Security",
-  enabled: true
-}
-```
-
-#### Fields Explained:
-* `id`: A unique string identifier (e.g., `"krebs-on-security"`).
-* `name`: The name displayed on news cards and in the source filter dropdown.
-* `feed`: The URL of the public RSS/Atom XML feed or JSON API endpoint.
-* `type`: `"rss"` for standard XML feeds or `"api_hn"` for native Algolia Hacker News endpoints.
-* `category`: Default category tag assigned to articles from this source.
-* `enabled`: Set to `true` to fetch; set to `false` to temporarily mute the source without deleting it.
-
-### Removing a Source
-
-Simply delete its entry from the `newsSources` array, or set `enabled: false`:
-
-```javascript
-{
-  id: "tldr-sec",
-  name: "TL;DR Sec",
-  feed: "https://tldrsec.com/feed.xml",
-  type: "rss",
-  category: "Cyber Security",
-  enabled: false // <--- Disabled
+  "id": "cve-2024-38077-rdl-rce",
+  "title": "Critical Windows Remote Desktop Licensing Service RCE Vulnerability",
+  "summary": "A critical remote code execution vulnerability (CVE-2024-38077) in Windows Remote Desktop Licensing...",
+  "category": "CVE / Vulnerabilities",
+  "source": "MSRC & NIST NVD",
+  "sourceUrl": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2024-38077",
+  "publishedAt": "2024-07-09T18:00:00Z",
+  "tags": ["CVE-2024-38077", "RCE", "Windows", "Critical", "Zero-Click"],
+  "cveId": "CVE-2024-38077",
+  "severity": "Critical",
+  "cvssScore": 9.8,
+  "image": "",
+  "author": "Threat Intelligence Unit",
+  "whyItMatters": "Unauthenticated zero-click RCE allowing complete domain compromise.",
+  "technicalDetails": "Heap overflow in RPC packet decoding.",
+  "affectedProducts": ["Windows Server 2008-2022"],
+  "recommendations": "Install Microsoft July 2024 KB5040437 patch or disable RDL service.",
+  "patchUrl": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2024-38077"
 }
 ```
 
 ---
 
-## 🏷️ How to Change Categories
+## ✍️ How to Add New Articles Manually
 
-To add, edit, or reorder categories, modify the `newsCategories` array in [`data/sources.js`](data/sources.js):
+1. Open [`data/articles.json`](data/articles.json) in your code editor.
+2. Insert your new article object at the top of the array:
+   ```json
+   [
+     {
+       "id": "my-new-tool-release",
+       "title": "New Open-Source Recon Tool Released",
+       "summary": "Fast reconnaissance tool designed for bug bounty hunters.",
+       "category": "Hacking & Security Tools",
+       "source": "GitHub Community",
+       "sourceUrl": "https://github.com/example/tool",
+       "publishedAt": "2026-09-04T12:00:00Z",
+       "tags": ["Tools", "Recon", "Bug Bounty"],
+       "cveId": "",
+       "severity": "Low",
+       "cvssScore": 0.0,
+       "author": "Security Team",
+       "whyItMatters": "Speeds up domain asset enumeration by 5x.",
+       "technicalDetails": "Written in Go with async DNS resolution.",
+       "affectedProducts": [],
+       "recommendations": "Run in your automated recon pipeline.",
+       "patchUrl": ""
+     },
+     ...
+   ]
+   ```
+3. Save the file. When you push to GitHub, the new article appears instantly!
 
-```javascript
-const newsCategories = [
-  "All",
-  "Cyber Security",
-  "Hacking",
-  "Bug Bounty",
-  "Vulnerabilities",
-  "Web Security",
-  "Cloud Security",
-  "Malware",
-  "Privacy",
-  "AI Security",
-  "Tools",
-  "Research"
-];
+---
+
+## 🤖 Automated Updates Pipeline (3 Options)
+
+### Option 1: GitHub Actions (Recommended • 100% Free & Automatic)
+A GitHub Actions workflow is included at [`.github/workflows/update_feeds.yml`](.github/workflows/update_feeds.yml).
+* **How it works**: Runs every 6 hours via GitHub's free servers. It executes `scripts/fetch_feeds.py` to pull the latest **CISA KEV** exploits and Hacker News infosec reports, updates `data/articles.json`, and commits back to your repository.
+* **Setup**: No setup needed! Once pushed to GitHub, navigate to your repository's **Actions** tab to enable workflows.
+
+### Option 2: Run Python Script Locally
+Run the Python ingestion script on your machine anytime:
+```bash
+python scripts/fetch_feeds.py
 ```
+This updates `data/articles.json` with fresh CVEs and headlines.
 
-The app will automatically generate category buttons in the horizontal scrolling navigation bar. Articles are intelligently tagged based on keywords or their source's default category.
-
----
-
-## ⏱️ How to Change the Refresh Interval
-
-In `data/sources.js`, edit `appConfig.refreshIntervalMinutes`:
-
-```javascript
-const appConfig = {
-  refreshIntervalMinutes: 15, // Change from default 30 to 15 minutes
-  dailyNotificationHour: 9,   // 9:00 AM
-  dailyNotificationMinute: 0
-};
-```
-
-You can also manually click the **🔄 Refresh** button in the header at any time.
+### Option 3: n8n Workflow
+If you use [n8n](https://n8n.io/):
+1. In n8n, click **Add Workflow** -> **Import from File**.
+2. Select [`n8n/cyber_daily_workflow.json`](n8n/cyber_daily_workflow.json).
+3. Connect your GitHub credential so n8n can automatically commit updated articles to your repository on schedule.
 
 ---
 
-## 🌐 How RSS & API Sources Work + CORS Limitations
+## ⚖️ Browser CORS & Technical Limitations
 
-### What is CORS?
-Cross-Origin Resource Sharing (CORS) is a browser security mechanism that restricts web pages from making HTTP requests to a different domain unless that server explicitly responds with the header `Access-Control-Allow-Origin: *`.
-
-Because this website runs as a **static site on GitHub Pages without a backend server**:
-1. **Public CORS APIs (Native)**: Sources like Hacker News (via the Algolia API) natively support CORS. Browser JavaScript can fetch them directly without intermediaries.
-2. **Standard External RSS Feeds**: Most publishers (e.g., The Hacker News, TL;DR Sec, Bugcrowd) do not attach CORS headers to their XML feeds. If a static web page attempts to `fetch('https://thehackernews.com/rss')` directly, the browser blocks it.
-3. **The Solution**:
-   * We route XML requests through CORS-friendly converters configured in `appConfig.rssProxies` (such as `https://api.rss2json.com/v1/api.json?rss_url=` or `https://api.allorigins.win/raw?url=`).
-   * If you prefer self-hosting your own free gateway, you can deploy a lightweight Cloudflare Worker (5 lines of JavaScript) that proxies requests with CORS headers, and paste its URL in `appConfig.rssProxies`.
-4. **Fault Tolerance**: Each source is handled independently via `Promise.allSettled()`. If any single source experiences a network timeout or CORS restriction, the rest of your feed will continue to load smoothly.
+* **Client-Side CORS**: Browsers block direct XML/RSS fetching from domains without CORS headers (like `krebsonsecurity.com` or `thehackersnews.com`).
+* **Solution Implemented**: 
+  1. The website immediately displays `data/articles.json` (guaranteeing it is never empty).
+  2. The Algolia Hacker News API is queried live (it supports native CORS).
+  3. Public CORS proxies (`rss2json`, `allorigins`) are used as graceful background fallbacks.
+  4. The automated **GitHub Actions** script (`scripts/fetch_feeds.py`) runs in a Python environment where CORS does not apply, providing a 100% reliable feed pipeline.
 
 ---
 
-## 🔍 How to Configure the Google Search / News Source
+## 🚢 How to Deploy to GitHub Pages
 
-Scraping raw Google search HTML pages violates Google's Terms of Service and is blocked by CAPTCHAs. 
-
-Instead, we use the official **Google News RSS Feed**, which is designed for RSS readers:
-
-```javascript
-{
-  id: "google-security",
-  name: "Google Security Articles",
-  feed: "https://news.google.com/rss/search?q=cybersecurity+OR+hacking+OR+%22bug+bounty%22+OR+vulnerability&hl=en-US&gl=US&ceid=US:en",
-  type: "rss",
-  category: "Hacking",
-  enabled: true
-}
-```
-
-To customize the search query, modify the `q=` parameter in the feed URL (e.g., change `cybersecurity` to `reverse+engineering` or `iot+security`).
-
----
-
-## 🔔 Daily 9:00 AM Notifications & Browser Limitations
-
-### How Notifications Work
-1. When you first open the site, a prompt will ask:
-   > *"Enable daily 9 AM news notifications?"*
-   > Buttons: **[Enable]** | **[Not Now]**
-2. When enabled, your preference is saved in `localStorage`, and the browser requests permission via the official `Notification` API.
-3. While the web page is open (in an active or background tab), an automated timer checks the local time every 60 seconds. At 9:00 AM, it triggers:
-   > *"🔔 Your daily cyber security news is ready."*
-4. Additionally, when you open the site around or after 9 AM, a **Daily Update Banner** appears:
-   > *"Today's update: 24 new articles"*
-   New stories fetched since your last visit are marked with a subtle blue indicator.
-
-### Important Static Hosting Limitation:
-Because GitHub Pages is a purely static hosting provider with no backend server:
-* **Client-side JavaScript cannot execute when your browser or phone screen is completely closed and the tab is unloaded.**
-* Browsers deliberately prevent static web pages from running background wake-ups without a registered Web Push service.
-* If the page is open in a background tab or reopened in the morning, the notification and 9 AM update logic will fire reliably.
-
----
-
-## 🚀 Converting to a Full PWA (Progressive Web App)
-
-The repository already includes the foundations for full PWA support:
-* [`manifest.json`](manifest.json): Allows you to tap **"Add to Home Screen"** on Chrome (Android) or Safari (iOS). The dashboard will open full-screen like a native mobile app without URL bars.
-* [`service-worker.js`](service-worker.js): Caches HTML, CSS, JavaScript, and fonts locally for instant offline loading.
-* **To upgrade to background Web Push notifications** (when the phone is completely asleep):
-  1. Set up a free Push Service (e.g. Firebase Cloud Messaging or web-push on a free serverless function).
-  2. Subscribe the Service Worker with `registration.pushManager.subscribe()`.
-  3. Send a scheduled daily trigger at 9:00 AM UTC/local to dispatch a push message to your subscription.
-
----
-
-## 🚢 How to Deploy to GitHub Pages (Step-by-Step)
-
-Deploying takes less than 2 minutes:
-
-1. **Create a GitHub Repository**:
-   - Go to [github.com/new](https://github.com/new).
-   - Name your repository (e.g. `cyber-news-aggregator`).
-   - Choose **Public**.
-2. **Upload Project Files**:
-   - Upload all files (`index.html`, `style.css`, `script.js`, `manifest.json`, `service-worker.js`, `assets/`, `data/`) directly to the `main` branch.
-3. **Enable GitHub Pages**:
-   - In your repository, click **Settings** > **Pages** (in the left sidebar).
-   - Under **Build and deployment > Source**, select **Deploy from a branch**.
-   - Under **Branch**, select `main` and folder `/ (root)`.
-   - Click **Save**.
-4. **Open Your Live Dashboard**:
-   - Within 30 seconds, GitHub will generate your live URL:
-     `https://<your-username>.github.io/<repo-name>/`
-   - Open this URL on your mobile phone and bookmark or tap **"Add to Home Screen"**!
+1. Open your terminal in this repository directory.
+2. Check your git status and stage all files:
+   ```bash
+   git status
+   git add .
+   ```
+3. Commit the changes:
+   ```bash
+   git commit -m "feat: upgrade Cyber Daily with CVE tracker, bug bounty hub, reader modal, and automated feed pipeline"
+   ```
+4. Push to GitHub:
+   ```bash
+   git push origin main
+   ```
+   *(Or `git push origin master` if your default branch is named `master`)*
+5. Open your repository on GitHub:
+   * Go to **Settings** -> **Pages**.
+   * Under **Build and deployment**, ensure **Source** is set to `Deploy from a branch`.
+   * Ensure **Branch** is `main` (or `master`) and folder is `/(root)`.
+   * Click **Save**.
+6. Within 1-2 minutes, your upgraded platform will be live at:
+   **[https://tubazainab.github.io/daily_updates/](https://tubazainab.github.io/daily_updates/)**

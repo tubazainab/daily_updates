@@ -1,38 +1,80 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-  <meta name="description" content="Clean, lightweight, mobile-first Cyber Security & Hacking News Aggregator for daily infosec updates.">
-  <meta name="theme-color" content="#0d1117">
+  <title>Cyber Daily - Your Daily Cybersecurity & Bug Bounty Updates</title>
 
-  <title>Cyber Security & Hacking News</title>
+  <!-- SEO Primary Meta Tags -->
+  <meta name="title" content="Cyber Daily - Your Daily Cybersecurity & Bug Bounty Updates">
+  <meta name="description" content="Your daily cybersecurity dashboard and bug bounty hub. Real-time updates on critical CVE vulnerabilities, zero-day disclosures, hacking tools, data breaches, and infosec learning.">
+  <meta name="keywords" content="cybersecurity news, cybersecurity updates, CVE updates, vulnerability news, bug bounty, ethical hacking, cybersecurity tools, infosec, zero-day, cloud security">
+  <meta name="author" content="Cyber Daily">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://tubazainab.github.io/daily_updates/">
 
-  <!-- PWA & Mobile Icons -->
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://tubazainab.github.io/daily_updates/">
+  <meta property="og:title" content="Cyber Daily - Your Daily Cybersecurity & Bug Bounty Updates">
+  <meta property="og:description" content="Real-time daily cybersecurity updates, critical CVE disclosures, bug bounty programs, security tools, and ethical hacking resources.">
+  <meta property="og:image" content="https://tubazainab.github.io/daily_updates/assets/icon.svg">
+
+  <!-- Twitter / X -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="https://tubazainab.github.io/daily_updates/">
+  <meta property="twitter:title" content="Cyber Daily - Your Daily Cybersecurity & Bug Bounty Updates">
+  <meta property="twitter:description" content="Real-time daily cybersecurity updates, critical CVE disclosures, bug bounty programs, security tools, and ethical hacking resources.">
+  <meta property="twitter:image" content="https://tubazainab.github.io/daily_updates/assets/icon.svg">
+
+  <!-- PWA & Mobile Theme -->
+  <meta name="theme-color" content="#0a0e17">
   <link rel="icon" type="image/svg+xml" href="assets/icon.svg">
   <link rel="apple-touch-icon" href="assets/icon.svg">
   <link rel="manifest" href="manifest.json">
+
+  <!-- Fonts: Inter & JetBrains Mono for Infosec / Code aesthetic -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 
   <!-- Stylesheet -->
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
+  <!-- Site Announcement / Disclaimer Bar -->
+  <div class="top-announcement" role="region" aria-label="Educational Disclaimer">
+    <div class="container announcement-inner">
+      <span class="announcement-tag">ETHICAL INFOSEC</span>
+      <span class="announcement-text">Curated for security researchers, bug bounty hunters, and defenders. All content is for educational use.</span>
+      <a href="#modal-disclaimer" class="announcement-link js-open-modal" data-modal="disclaimer">Ethics Policy</a>
+    </div>
+  </div>
+
   <!-- Top App Header -->
   <header class="app-header">
     <div class="container">
       <div class="header-top">
-        <a href="./" class="brand" aria-label="Cyber News Dashboard">
-          <svg class="brand-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-            <path d="M9 12l2 2 4-4"/>
-          </svg>
-          <h1 class="brand-title">Cyber <span class="highlight">News</span></h1>
+        <!-- Brand & Tagline -->
+        <a href="./" class="brand" aria-label="Cyber Daily Home">
+          <div class="brand-logo-wrap">
+            <svg class="brand-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+              <path d="M9 12l2 2 4-4"/>
+            </svg>
+            <span class="pulse-indicator" title="System Live"></span>
+          </div>
+          <div class="brand-text">
+            <h1 class="brand-title">CYBER <span class="highlight">DAILY</span></h1>
+            <p class="brand-tagline">Your Daily Cybersecurity &amp; Bug Bounty Updates</p>
+          </div>
         </a>
 
+        <!-- Header Actions -->
         <div class="header-actions">
-          <!-- Refresh Button -->
-          <button id="btn-refresh" class="btn-icon" title="Refresh news (30m auto)" aria-label="Refresh news feed">
+          <!-- Refresh Feed -->
+          <button id="btn-refresh" class="btn-icon" title="Refresh Feeds" aria-label="Refresh feeds">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <polyline points="23 4 23 10 17 10"/>
               <polyline points="1 20 1 14 7 14"/>
@@ -40,8 +82,8 @@
             </svg>
           </button>
 
-          <!-- Daily 9 AM Notification Toggle -->
-          <button id="btn-notification" class="btn-icon" title="Daily 9:00 AM Notification Settings" aria-label="Toggle daily 9 AM notification">
+          <!-- Notification Settings -->
+          <button id="btn-notification" class="btn-icon" title="Daily 9:00 AM Morning Briefing" aria-label="Toggle daily notification">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
               <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
@@ -50,11 +92,9 @@
 
           <!-- Theme Toggle -->
           <button id="btn-theme" class="btn-icon" title="Toggle Light / Dark Mode" aria-label="Toggle theme">
-            <!-- Moon Icon for Dark Mode -->
             <svg id="theme-moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
             </svg>
-            <!-- Sun Icon for Light Mode (hidden by default) -->
             <svg id="theme-sun" style="display:none;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <circle cx="12" cy="12" r="5"/>
               <line x1="12" y1="1" x2="12" y2="3"/>
@@ -70,74 +110,143 @@
         </div>
       </div>
 
-      <!-- Search Box -->
-      <div class="search-wrapper">
+      <!-- Search Bar -->
+      <div class="search-wrapper" role="search">
         <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <circle cx="11" cy="11" r="8"/>
           <line x1="21" y1="21" x2="16.65" y2="16.65"/>
         </svg>
-        <input type="search" id="search-input" class="search-input" placeholder="Search news, vulnerabilities, CVEs, tools..." autocomplete="off" spellcheck="false" aria-label="Search articles">
+        <input type="search" id="search-input" class="search-input" placeholder="Search by title, description, tags, category, or CVE ID (e.g. CVE-2024, XSS, Cloud)..." autocomplete="off" spellcheck="false" aria-label="Search cybersecurity articles">
         <button id="search-clear" class="search-clear" title="Clear search" aria-label="Clear search">✕</button>
       </div>
     </div>
   </header>
 
-  <!-- Main Content Area -->
+  <!-- Main Content Container -->
   <main class="container">
 
     <!-- Offline Banner -->
     <div id="banner-offline" class="banner banner-offline" role="alert">
       <span>📡</span>
-      <span>Offline — showing last available news.</span>
+      <span>Offline Mode — Displaying cached intelligence and local vulnerability database.</span>
     </div>
 
-    <!-- 9 AM Special Daily Update Banner -->
+    <!-- 9 AM Daily Briefing Banner -->
     <div id="banner-daily" class="banner banner-daily" role="status">
       <span class="banner-icon">🔔</span>
-      <span id="banner-daily-text">Today's update: Loading new articles...</span>
+      <span id="banner-daily-text">Today's Morning Briefing: Synchronized and ready.</span>
     </div>
 
-    <!-- Notification Permission Modal / Prompt -->
+    <!-- Notification Prompt Modal -->
     <section id="notification-prompt" class="notification-banner" aria-label="Notification Permission Prompt">
       <div class="notification-banner-content">
-        <strong>🔔 Enable daily 9 AM news notifications?</strong>
-        <span>Get a daily morning reminder when fresh security headlines and bug bounty writeups are ready.</span>
+        <strong>🔔 Enable Morning 9:00 AM Security Briefings?</strong>
+        <span>Get a daily high-priority alert when critical CVE disclosures and high-payout bug bounty scopes drop.</span>
       </div>
       <div class="notification-banner-actions">
-        <button id="btn-notify-dismiss" class="btn-sm btn-secondary">Not Now</button>
-        <button id="btn-notify-enable" class="btn-sm btn-primary">Enable</button>
+        <button id="btn-notify-dismiss" class="btn-sm btn-secondary">Maybe Later</button>
+        <button id="btn-notify-enable" class="btn-sm btn-primary">Enable Alerts</button>
       </div>
     </section>
 
-    <!-- Category Filter Bar (Horizontal Scroll on Mobile) -->
-    <nav class="category-container" aria-label="News Categories">
+    <!-- Dynamic Dashboard Statistics Section -->
+    <section class="dashboard-stats" aria-label="Hub Key Statistics">
+      <div class="stat-card" id="stat-articles-card">
+        <div class="stat-icon-wrap icon-blue">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+        </div>
+        <div class="stat-info">
+          <span class="stat-value" id="stat-total-articles">--</span>
+          <span class="stat-label">Latest Updates</span>
+        </div>
+      </div>
+
+      <div class="stat-card" id="stat-cve-card">
+        <div class="stat-icon-wrap icon-red">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        </div>
+        <div class="stat-info">
+          <span class="stat-value" id="stat-critical-cve">--</span>
+          <span class="stat-label">Critical CVEs</span>
+        </div>
+      </div>
+
+      <div class="stat-card" id="stat-bounty-card">
+        <div class="stat-icon-wrap icon-amber">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+        </div>
+        <div class="stat-info">
+          <span class="stat-value" id="stat-bounty-count">--</span>
+          <span class="stat-label">Bug Bounty Scopes</span>
+        </div>
+      </div>
+
+      <div class="stat-card" id="stat-tools-card">
+        <div class="stat-icon-wrap icon-green">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+        </div>
+        <div class="stat-info">
+          <span class="stat-value" id="stat-tools-count">--</span>
+          <span class="stat-label">Security Tools</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section Hub Shortcuts (Quick Views) -->
+    <div class="hub-tabs-bar" role="tablist" aria-label="Section shortcuts">
+      <button class="hub-tab active" data-view="all" role="tab" aria-selected="true">⚡ All Updates</button>
+      <button class="hub-tab" data-view="trending" role="tab" aria-selected="false">🔥 Trending</button>
+      <button class="hub-tab" data-view="cve" role="tab" aria-selected="false">🚨 CVE / Vulnerabilities</button>
+      <button class="hub-tab" data-view="bugbounty" role="tab" aria-selected="false">🎯 Bug Bounty Hub</button>
+      <button class="hub-tab" data-view="tools" role="tab" aria-selected="false">🛠️ Tools</button>
+      <button class="hub-tab" data-view="jobs" role="tab" aria-selected="false">💼 Jobs</button>
+      <button class="hub-tab" data-view="learning" role="tab" aria-selected="false">📚 Learning</button>
+    </div>
+
+    <!-- Category Pills Filter Bar -->
+    <nav class="category-container" aria-label="Cybersecurity Categories">
       <div id="category-pills" class="category-pills" role="tablist">
-        <!-- Dynamically injected from data/sources.js -->
+        <!-- Injected dynamically from data/sources.js -->
       </div>
     </nav>
 
-    <!-- Controls & Status Bar -->
+    <!-- Controls Bar: Source Select & Active Counter -->
     <div class="controls-bar">
-      <!-- Source Filter -->
       <div class="source-select-wrapper">
-        <label for="source-select" class="visually-hidden">Source:</label>
+        <label for="source-select" class="visually-hidden">Filter by feed source:</label>
         <select id="source-select" class="source-select" aria-label="Filter by source">
-          <option value="all">All Sources</option>
-          <!-- Dynamically populated from sources.js -->
+          <option value="all">All Intelligence Feeds</option>
         </select>
       </div>
 
-      <!-- Feed Status & Last Updated -->
       <div class="feed-stats">
-        <span id="article-count">0 articles</span>
-        <span>•</span>
-        <span id="last-updated">Last updated: --</span>
+        <span id="article-count" class="badge-counter">Loading...</span>
+        <span class="divider">•</span>
+        <span id="last-updated">Last sync: --</span>
       </div>
     </div>
 
-    <!-- News List / Feed Container -->
-    <section id="news-container" class="news-list" aria-label="Latest Cybersecurity News" aria-live="polite">
-      <!-- Skeleton Loaders rendered initially -->
+    <!-- Dedicated CVE Alert Box (dynamically toggled or visible when CVE view active) -->
+    <div id="cve-view-banner" class="section-banner cve-banner" style="display:none;">
+      <div class="section-banner-header">
+        <span class="badge-critical">CVE TRACKER</span>
+        <h3>Critical &amp; High Vulnerability Disclosures</h3>
+      </div>
+      <p>Tracking Common Vulnerabilities and Exposures (CVEs) with standardized CVSS severity scores, affected vendor packages, and official remediation patch advisories.</p>
+    </div>
+
+    <!-- Dedicated Bug Bounty View Banner -->
+    <div id="bugbounty-view-banner" class="section-banner bugbounty-banner" style="display:none;">
+      <div class="section-banner-header">
+        <span class="badge-bounty">BUG BOUNTY HUB</span>
+        <h3>Authorized Scope Updates &amp; Hunting Tips</h3>
+      </div>
+      <p>Latest public program expansions, safe-harbor guidelines, writeups, and responsible disclosure practices. <em>Strictly for authorized testing—never test systems without documented permission.</em></p>
+    </div>
+
+    <!-- News Feed Container -->
+    <section id="news-container" class="news-grid" aria-label="Cybersecurity Feed" aria-live="polite">
+      <!-- Skeleton Loaders rendered during state transitions -->
       <div class="skeleton-card">
         <div class="skeleton-shimmer skeleton-meta"></div>
         <div class="skeleton-shimmer skeleton-title"></div>
@@ -161,13 +270,162 @@
       </div>
     </section>
 
+    <!-- Monetization-Ready Resource Slot (Clean, non-spammy sponsor/affiliate zone) -->
+    <aside class="sponsor-slot-container" aria-label="Recommended Infosec Resources">
+      <div class="sponsor-card">
+        <div class="sponsor-badge">SPONSORED / RECOMMENDED RESOURCES</div>
+        <div class="sponsor-content">
+          <div class="sponsor-icon">🛡️</div>
+          <div class="sponsor-details">
+            <h4 class="sponsor-title">Master Ethical Hacking &amp; Web Security Labs</h4>
+            <p class="sponsor-desc">Looking to sharpen your bug bounty recon and penetration testing? Explore PortSwigger Web Security Academy and hands-on CTF platforms.</p>
+          </div>
+          <a href="https://portswigger.net/web-security" target="_blank" rel="noopener noreferrer" class="btn-sponsor">Explore Free Labs</a>
+        </div>
+      </div>
+      <!-- Optional Future Google AdSense Container (Uncomment and insert your AdSense Publisher ID) -->
+      <!--
+      <div class="adsense-slot" style="margin-top: 16px; text-align: center;">
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+             data-ad-slot="XXXXXXXXXX"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      </div>
+      -->
+    </aside>
+
   </main>
 
-  <!-- Footer -->
+  <!-- Article Detail Reader Modal -->
+  <div id="article-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="modal-article-title">
+    <div class="modal-dialog modal-reader-dialog">
+      <div class="modal-header">
+        <div class="modal-badges" id="modal-article-badges">
+          <!-- Dynamic category, severity & CVSS tags -->
+        </div>
+        <button id="modal-article-close" class="modal-close-btn" aria-label="Close article reader">✕</button>
+      </div>
+
+      <div class="modal-body modal-reader-body">
+        <h2 id="modal-article-title" class="modal-reader-title">--</h2>
+
+        <div class="modal-reader-meta">
+          <span id="modal-article-source" class="modal-source-pill">--</span>
+          <span id="modal-article-date" class="modal-date">--</span>
+          <span id="modal-article-author" class="modal-author">--</span>
+        </div>
+
+        <!-- CVE Specific Info Box (Visible if CVE exists) -->
+        <div id="modal-cve-box" class="modal-cve-box" style="display:none;">
+          <div class="cve-box-header">
+            <span class="cve-id-tag" id="modal-cve-id">CVE-XXXX-XXXX</span>
+            <span class="cve-cvss-meter" id="modal-cve-cvss">CVSS 9.8</span>
+            <span class="cve-severity-tag" id="modal-cve-severity">Critical</span>
+          </div>
+          <div class="cve-affected-block">
+            <strong>Affected Software:</strong>
+            <ul id="modal-cve-affected-list"></ul>
+          </div>
+        </div>
+
+        <!-- Executive Summary -->
+        <div class="modal-section">
+          <h3 class="modal-section-title">Executive Summary</h3>
+          <p id="modal-article-summary" class="modal-summary-text"></p>
+        </div>
+
+        <!-- Why It Matters -->
+        <div id="modal-why-section" class="modal-callout-box">
+          <h4 class="modal-callout-title">⚠️ Why It Matters to Defenders &amp; Hunters</h4>
+          <p id="modal-article-why"></p>
+        </div>
+
+        <!-- Technical Details -->
+        <div id="modal-tech-section" class="modal-section">
+          <h3 class="modal-section-title">Technical Deep-Dive</h3>
+          <p id="modal-article-technical"></p>
+        </div>
+
+        <!-- Recommendations & Remediation -->
+        <div id="modal-rec-section" class="modal-section">
+          <h3 class="modal-section-title">Security Recommendations &amp; Fixes</h3>
+          <p id="modal-article-recommendations"></p>
+        </div>
+
+        <!-- Tags List -->
+        <div class="modal-tags-wrap" id="modal-article-tags"></div>
+
+        <!-- External Source & Patch Action Buttons -->
+        <div class="modal-actions-bar">
+          <a id="modal-source-link" href="#" target="_blank" rel="noopener noreferrer" class="btn-modal-action btn-primary">
+            Visit Official Source
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          </a>
+          <a id="modal-patch-link" href="#" target="_blank" rel="noopener noreferrer" class="btn-modal-action btn-secondary" style="display:none;">
+            Official Patch Advisory
+          </a>
+          <button id="modal-share-btn" class="btn-modal-action btn-secondary" title="Copy shareable link">
+            Copy Link
+          </button>
+        </div>
+
+        <!-- Related Articles -->
+        <div class="modal-section modal-related-section">
+          <h3 class="modal-section-title">Related Intelligence</h3>
+          <div id="modal-related-container" class="related-cards-grid"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Trust & Transparency Info Modals -->
+  <div id="info-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="modal-dialog modal-info-dialog">
+      <div class="modal-header">
+        <h3 id="info-modal-title" class="info-title">About Cyber Daily</h3>
+        <button id="info-modal-close" class="modal-close-btn" aria-label="Close dialog">✕</button>
+      </div>
+      <div id="info-modal-body" class="modal-body info-body">
+        <!-- Injected dynamically based on clicked footer link -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer with Trust, Transparency & Legal Links -->
   <footer class="app-footer">
-    <div class="container">
-      <p>🛡️ Cyber Security & Hacking News Aggregator</p>
-      <p>Lightweight • Fast • Mobile-First • Hosted on GitHub Pages</p>
+    <div class="container footer-content">
+      <div class="footer-brand">
+        <div class="footer-logo">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
+          <strong>CYBER DAILY</strong>
+        </div>
+        <p class="footer-tagline">Your Daily Cybersecurity &amp; Bug Bounty Intelligence Hub.</p>
+        <p class="footer-disclaimer-notice">
+          <strong>Educational &amp; Defensive Stance:</strong> Cyber Daily aggregates public advisories and reports to empower defensive teams, students, and authorized security researchers. We strictly condemn unauthorized exploitation, malicious cracking, and computer crime.
+        </p>
+      </div>
+
+      <nav class="footer-links" aria-label="Legal and Platform Information">
+        <div class="footer-col">
+          <h4>Platform</h4>
+          <a href="#" class="js-open-modal" data-modal="about">About Cyber Daily</a>
+          <a href="#" class="js-open-modal" data-modal="sources">Verified Sources</a>
+          <a href="#" class="js-open-modal" data-modal="contact">Contact &amp; Submissions</a>
+        </div>
+        <div class="footer-col">
+          <h4>Legal &amp; Trust</h4>
+          <a href="#" class="js-open-modal" data-modal="privacy">Privacy Policy</a>
+          <a href="#" class="js-open-modal" data-modal="terms">Terms of Use</a>
+          <a href="#" class="js-open-modal" data-modal="disclaimer">Responsible Disclosure</a>
+        </div>
+      </nav>
+    </div>
+
+    <div class="container footer-bottom">
+      <p>&copy; <span id="current-year">2026</span> Cyber Daily. Free, lightweight, and static-hosted on GitHub Pages.</p>
     </div>
   </footer>
 
