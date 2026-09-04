@@ -6,7 +6,7 @@
     "category": "CVE / Vulnerabilities",
     "source": "CISA KEV Catalog",
     "sourceUrl": "https://nvd.nist.gov/vuln/detail/CVE-2020-29583",
-    "publishedAt": "2026-09-04T07:23:50.606787+00:00",
+    "publishedAt": "2026-09-04T15:41:29.511550+00:00",
     "tags": [
       "CVE-2020-29583",
       "CISA-KEV",
@@ -33,7 +33,7 @@
     "category": "CVE / Vulnerabilities",
     "source": "CISA KEV Catalog",
     "sourceUrl": "https://nvd.nist.gov/vuln/detail/CVE-2019-8394",
-    "publishedAt": "2026-09-04T07:23:50.606783+00:00",
+    "publishedAt": "2026-09-04T15:41:29.511541+00:00",
     "tags": [
       "CVE-2019-8394",
       "CISA-KEV",
@@ -60,7 +60,7 @@
     "category": "CVE / Vulnerabilities",
     "source": "CISA KEV Catalog",
     "sourceUrl": "https://nvd.nist.gov/vuln/detail/CVE-2020-10189",
-    "publishedAt": "2026-09-04T07:23:50.606779+00:00",
+    "publishedAt": "2026-09-04T15:41:29.511538+00:00",
     "tags": [
       "CVE-2020-10189",
       "CISA-KEV",
@@ -87,7 +87,7 @@
     "category": "CVE / Vulnerabilities",
     "source": "CISA KEV Catalog",
     "sourceUrl": "https://nvd.nist.gov/vuln/detail/CVE-2021-40539",
-    "publishedAt": "2026-09-04T07:23:50.606774+00:00",
+    "publishedAt": "2026-09-04T15:41:29.511535+00:00",
     "tags": [
       "CVE-2021-40539",
       "CISA-KEV",
@@ -114,7 +114,7 @@
     "category": "CVE / Vulnerabilities",
     "source": "CISA KEV Catalog",
     "sourceUrl": "https://nvd.nist.gov/vuln/detail/CVE-2021-27561",
-    "publishedAt": "2026-09-04T07:23:50.606770+00:00",
+    "publishedAt": "2026-09-04T15:41:29.511532+00:00",
     "tags": [
       "CVE-2021-27561",
       "CISA-KEV",
@@ -141,7 +141,7 @@
     "category": "CVE / Vulnerabilities",
     "source": "CISA KEV Catalog",
     "sourceUrl": "https://nvd.nist.gov/vuln/detail/CVE-2019-9978",
-    "publishedAt": "2026-09-04T07:23:50.606760+00:00",
+    "publishedAt": "2026-09-04T15:41:29.511529+00:00",
     "tags": [
       "CVE-2019-9978",
       "CISA-KEV",
@@ -168,7 +168,7 @@
     "category": "CVE / Vulnerabilities",
     "source": "CISA KEV Catalog",
     "sourceUrl": "https://nvd.nist.gov/vuln/detail/CVE-2020-11738",
-    "publishedAt": "2026-09-04T07:23:50.606746+00:00",
+    "publishedAt": "2026-09-04T15:41:29.511524+00:00",
     "tags": [
       "CVE-2020-11738",
       "CISA-KEV",
@@ -195,7 +195,7 @@
     "category": "CVE / Vulnerabilities",
     "source": "CISA KEV Catalog",
     "sourceUrl": "https://nvd.nist.gov/vuln/detail/CVE-2020-25213",
-    "publishedAt": "2026-09-04T07:23:50.604710+00:00",
+    "publishedAt": "2026-09-04T15:41:29.511496+00:00",
     "tags": [
       "CVE-2020-25213",
       "CISA-KEV",
@@ -758,5 +758,28 @@
     ],
     "recommendations": "Apply the official Microsoft February 2024 security updates. Block outbound SMB traffic (TCP port 445) at the perimeter firewall to prevent remote NTLM credential harvesting.",
     "patchUrl": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2024-21413"
+  },
+  {
+    "id": "hn-28090497",
+    "title": "Ask HN: How a malware can persist after an OS reset?",
+    "summary": "Discussion on Hacker News (5 points, 3 comments). Verified infosec community submission.",
+    "category": "Cybersecurity News",
+    "source": "Hacker News InfoSec",
+    "sourceUrl": "https://news.ycombinator.com/item?id=28090497",
+    "publishedAt": "2021-08-06T17:40:22Z",
+    "tags": [
+      "Cybersecurity News",
+      "Community Research"
+    ],
+    "cveId": "",
+    "severity": "Low",
+    "cvssScore": 0.0,
+    "image": "",
+    "author": "whitesecurity",
+    "whyItMatters": "Active discussion and peer review among security practitioners.",
+    "technicalDetails": "",
+    "affectedProducts": [],
+    "recommendations": "Review linked advisory and verify with internal dependency inventories.",
+    "patchUrl": ""
   }
 ]
