@@ -6,7 +6,7 @@
     "category": "CVE / Vulnerabilities",
     "source": "CISA KEV Catalog",
     "sourceUrl": "https://nvd.nist.gov/vuln/detail/CVE-2020-29583",
-    "publishedAt": "2026-09-11T10:31:33.400378+00:00",
+    "publishedAt": "2026-09-11T15:47:14.268851+00:00",
     "tags": [
       "CVE-2020-29583",
       "CISA-KEV",
@@ -33,7 +33,7 @@
     "category": "CVE / Vulnerabilities",
     "source": "CISA KEV Catalog",
     "sourceUrl": "https://nvd.nist.gov/vuln/detail/CVE-2019-8394",
-    "publishedAt": "2026-09-11T10:31:33.400370+00:00",
+    "publishedAt": "2026-09-11T15:47:14.268844+00:00",
     "tags": [
       "CVE-2019-8394",
       "CISA-KEV",
@@ -60,7 +60,7 @@
     "category": "CVE / Vulnerabilities",
     "source": "CISA KEV Catalog",
     "sourceUrl": "https://nvd.nist.gov/vuln/detail/CVE-2020-10189",
-    "publishedAt": "2026-09-11T10:31:33.400367+00:00",
+    "publishedAt": "2026-09-11T15:47:14.268842+00:00",
     "tags": [
       "CVE-2020-10189",
       "CISA-KEV",
@@ -87,7 +87,7 @@
     "category": "CVE / Vulnerabilities",
     "source": "CISA KEV Catalog",
     "sourceUrl": "https://nvd.nist.gov/vuln/detail/CVE-2021-40539",
-    "publishedAt": "2026-09-11T10:31:33.400362+00:00",
+    "publishedAt": "2026-09-11T15:47:14.268836+00:00",
     "tags": [
       "CVE-2021-40539",
       "CISA-KEV",
@@ -114,7 +114,7 @@
     "category": "CVE / Vulnerabilities",
     "source": "CISA KEV Catalog",
     "sourceUrl": "https://nvd.nist.gov/vuln/detail/CVE-2021-27561",
-    "publishedAt": "2026-09-11T10:31:33.400359+00:00",
+    "publishedAt": "2026-09-11T15:47:14.268833+00:00",
     "tags": [
       "CVE-2021-27561",
       "CISA-KEV",
@@ -141,7 +141,7 @@
     "category": "CVE / Vulnerabilities",
     "source": "CISA KEV Catalog",
     "sourceUrl": "https://nvd.nist.gov/vuln/detail/CVE-2019-9978",
-    "publishedAt": "2026-09-11T10:31:33.400355+00:00",
+    "publishedAt": "2026-09-11T15:47:14.268829+00:00",
     "tags": [
       "CVE-2019-9978",
       "CISA-KEV",
@@ -168,7 +168,7 @@
     "category": "CVE / Vulnerabilities",
     "source": "CISA KEV Catalog",
     "sourceUrl": "https://nvd.nist.gov/vuln/detail/CVE-2020-11738",
-    "publishedAt": "2026-09-11T10:31:33.400347+00:00",
+    "publishedAt": "2026-09-11T15:47:14.268822+00:00",
     "tags": [
       "CVE-2020-11738",
       "CISA-KEV",
@@ -195,7 +195,7 @@
     "category": "CVE / Vulnerabilities",
     "source": "CISA KEV Catalog",
     "sourceUrl": "https://nvd.nist.gov/vuln/detail/CVE-2020-25213",
-    "publishedAt": "2026-09-11T10:31:33.400316+00:00",
+    "publishedAt": "2026-09-11T15:47:14.268792+00:00",
     "tags": [
       "CVE-2020-25213",
       "CISA-KEV",
